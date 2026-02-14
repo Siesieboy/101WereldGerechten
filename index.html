@@ -1,0 +1,2120 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>101 Wereldgerechten - Een Culinaire Wereldreis</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Crimson+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cream: #FBF8F3;
+            --burnt-orange: #D4682F;
+            --deep-brown: #3A2817;
+            --sage: #8B9474;
+            --gold: #C9A961;
+            --terracotta: #B85C38;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Crimson Pro', serif;
+            background: var(--cream);
+            color: var(--deep-brown);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+        
+        /* Animated background texture */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(212, 104, 47, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(139, 148, 116, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(201, 169, 97, 0.02) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+            animation: subtleMove 20s ease-in-out infinite;
+        }
+        
+        @keyframes subtleMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(20px, 20px); }
+        }
+        
+        /* Header */
+        header {
+            padding: 4rem 2rem 2rem;
+            text-align: center;
+            position: relative;
+            opacity: 0;
+            animation: fadeInDown 1s ease-out forwards;
+        }
+        
+        @keyframes fadeInDown {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+        }
+        
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 6rem);
+            font-weight: 900;
+            color: var(--burnt-orange);
+            letter-spacing: -2px;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+        
+        .subtitle {
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            color: var(--deep-brown);
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.8;
+        }
+        
+        .intro {
+            max-width: 700px;
+            margin: 3rem auto 4rem;
+            font-size: 1.25rem;
+            text-align: center;
+            color: var(--deep-brown);
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+        }
+        
+        @keyframes fadeIn {
+            to { opacity: 1; }
+            from { opacity: 0; }
+        }
+        
+        /* Filter Navigation */
+        .filter-nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.6s forwards;
+        }
+        
+        .filter-btn {
+            padding: 0.75rem 1.75rem;
+            background: white;
+            border: 2px solid var(--gold);
+            color: var(--deep-brown);
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .filter-btn:hover, .filter-btn.active {
+            background: var(--burnt-orange);
+            color: white;
+            border-color: var(--burnt-orange);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 104, 47, 0.3);
+        }
+        
+        /* Grid Container */
+        .dishes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 2.5rem;
+            padding: 2rem 3rem 5rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        
+        /* Dish Card */
+        .dish-card {
+            background: white;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(58, 40, 23, 0.08);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out forwards;
+            position: relative;
+        }
+        
+        .dish-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--burnt-orange), var(--gold), var(--terracotta));
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .dish-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+        }
+        
+        .dish-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 16px 40px rgba(58, 40, 23, 0.15);
+        }
+        
+        .dish-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        
+        .dish-card:hover .dish-image {
+            transform: scale(1.08);
+        }
+        
+        .dish-info {
+            padding: 1.75rem;
+        }
+        
+        .dish-origin {
+            display: inline-block;
+            font-size: 0.85rem;
+            color: var(--burnt-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+        
+        .dish-origin::before {
+            content: '◆';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+        
+        .dish-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--deep-brown);
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+        
+        .dish-description {
+            font-size: 1rem;
+            color: rgba(58, 40, 23, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1.25rem;
+        }
+        
+        .dish-meta {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 0.9rem;
+            color: var(--sage);
+            margin-bottom: 1rem;
+        }
+        
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .recipe-btn {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--deep-brown);
+            color: white;
+            border: none;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .recipe-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .recipe-btn:hover::before {
+            left: 100%;
+        }
+        
+        .recipe-btn:hover {
+            background: var(--burnt-orange);
+            transform: scale(1.02);
+        }
+        
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(58, 40, 23, 0.95);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .modal-content {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: var(--cream);
+            padding: 3rem;
+            position: relative;
+            border-radius: 0;
+            animation: slideUp 0.4s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: var(--burnt-orange);
+            color: white;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .close-modal:hover {
+            background: var(--terracotta);
+            transform: rotate(90deg);
+        }
+        
+        .add-to-list-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--sage);
+            color: white;
+            border: none;
+            font-family: 'Crimson Pro', serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 2rem;
+        }
+        
+        .add-to-list-btn:hover {
+            background: var(--burnt-orange);
+            transform: scale(1.02);
+        }
+        
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--deep-brown);
+            color: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            transform: translateY(150%);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+            font-family: 'Crimson Pro', serif;
+        }
+        
+        .notification.show {
+            transform: translateY(0);
+        }
+        
+        .modal h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            color: var(--burnt-orange);
+            margin-bottom: 0.5rem;
+        }
+        
+        .modal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            color: var(--deep-brown);
+            margin: 2rem 0 1rem;
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 0.5rem;
+        }
+        
+        .ingredients-list {
+            list-style: none;
+            padding: 0;
+        }
+        
+        .ingredients-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(58, 40, 23, 0.1);
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .ingredients-list li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+        
+        .steps-list {
+            counter-reset: step-counter;
+            list-style: none;
+            padding: 0;
+        }
+        
+        .steps-list li {
+            counter-increment: step-counter;
+            padding: 1.25rem 0 1.25rem 4rem;
+            position: relative;
+            border-bottom: 1px solid rgba(58, 40, 23, 0.1);
+        }
+        
+        .steps-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 1.25rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: var(--burnt-orange);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .dishes-grid {
+                grid-template-columns: 1fr;
+                padding: 2rem 1.5rem;
+                gap: 2rem;
+            }
+            
+            header {
+                padding: 2rem 1rem;
+            }
+            
+            .modal-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem;
+            }
+            
+            .filter-nav {
+                padding: 1rem;
+            }
+        }
+        
+        /* Stagger animation delays for cards */
+        .dish-card:nth-child(1) { animation-delay: 0.1s; }
+        .dish-card:nth-child(2) { animation-delay: 0.15s; }
+        .dish-card:nth-child(3) { animation-delay: 0.2s; }
+        .dish-card:nth-child(4) { animation-delay: 0.25s; }
+        .dish-card:nth-child(5) { animation-delay: 0.3s; }
+        .dish-card:nth-child(6) { animation-delay: 0.35s; }
+        .dish-card:nth-child(7) { animation-delay: 0.4s; }
+        .dish-card:nth-child(8) { animation-delay: 0.45s; }
+        .dish-card:nth-child(9) { animation-delay: 0.5s; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>101 Wereldgerechten</h1>
+        <p class="subtitle">Een Culinaire Wereldreis</p>
+        
+        <nav style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
+            <a href="wereldgerechten.html" style="color: var(--deep-brown); text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border: 2px solid var(--gold); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; background: var(--burnt-orange); color: white; border-color: var(--burnt-orange);">Recepten</a>
+            <a href="boodschappenlijst.html" style="color: var(--deep-brown); text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border: 2px solid var(--gold); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Boodschappenlijst</a>
+        </nav>
+    </header>
+    
+    <p class="intro">
+        Van de pittige straten van Bangkok tot de gezellige trattorias van Rome - 
+        ontdek de meest iconische gerechten die de wereld te bieden heeft. 
+        Elke hap vertelt een verhaal van cultuur, traditie en passie.
+    </p>
+    
+    <nav class="filter-nav">
+        <button class="filter-btn active" data-region="alle">Alle Regio's</button>
+        <button class="filter-btn" data-region="europa">Europa</button>
+        <button class="filter-btn" data-region="azie">Azië</button>
+        <button class="filter-btn" data-region="amerika">Amerika</button>
+        <button class="filter-btn" data-region="afrika">Afrika</button>
+        <button class="filter-btn" data-region="oceanie">Oceanië</button>
+    </nav>
+    
+    <div class="dishes-grid" id="dishesGrid"></div>
+    
+    <div class="modal" id="recipeModal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeModal()">×</button>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+    
+    <div class="notification" id="notification"></div>
+    
+    <script>
+        const dishes = [
+            {
+                name: "Pizza Margherita",
+                origin: "Italië",
+                region: "europa",
+                description: "De klassieke Napolitaanse pizza met tomatensaus, mozzarella en verse basilicum.",
+                time: "25 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F4E4C1'/%3E%3Cstop offset='100%25' style='stop-color:%23E8D4A0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg)'/%3E%3Ccircle cx='200' cy='150' r='120' fill='%23FFD700' opacity='0.3'/%3E%3Ccircle cx='200' cy='150' r='100' fill='%23DC143C' opacity='0.6'/%3E%3Ccircle cx='180' cy='130' r='25' fill='white' opacity='0.8'/%3E%3Ccircle cx='220' cy='130' r='25' fill='white' opacity='0.8'/%3E%3Ccircle cx='200' cy='170' r='25' fill='white' opacity='0.8'/%3E%3Cpath d='M 180 120 Q 200 110 220 120' stroke='%2332CD32' stroke-width='3' fill='none' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EPizza Margherita%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "300g pizzadeeg",
+                    "150g tomatensaus (passata)",
+                    "200g verse mozzarella",
+                    "Verse basilicumblaadjes",
+                    "Extra vergine olijfolie",
+                    "Zeezout"
+                ],
+                steps: [
+                    "Verwarm de oven voor op 250°C (of zo heet als mogelijk).",
+                    "Rol het deeg uit tot een dunne cirkel van ongeveer 30 cm doorsnede.",
+                    "Smeer de tomatensaus over het deeg, laat 2 cm rand vrij.",
+                    "Verdeel de gescheurde mozzarella over de pizza.",
+                    "Bak 10-12 minuten tot de korst goudbruin is en de kaas borrelt.",
+                    "Garneer met verse basilicum en een druppel olijfolie."
+                ]
+            },
+            {
+                name: "Pad Thai",
+                origin: "Thailand",
+                region: "azie",
+                description: "Klassieke Thaise roerbaknoedels met garnalen, pinda's en tamarinde.",
+                time: "30 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg2' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFE5CC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFD4A3'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg2)'/%3E%3Cellipse cx='200' cy='150' rx='130' ry='80' fill='%23D2691E' opacity='0.4'/%3E%3Cpath d='M 100 140 Q 150 120 200 140 T 300 140' stroke='%23F4A460' stroke-width='8' fill='none' opacity='0.7'/%3E%3Cpath d='M 110 160 Q 160 145 210 160 T 310 160' stroke='%23F4A460' stroke-width='8' fill='none' opacity='0.7'/%3E%3Ccircle cx='250' cy='120' r='8' fill='%23FF6347' opacity='0.8'/%3E%3Ccircle cx='270' cy='135' r='8' fill='%23FF6347' opacity='0.8'/%3E%3Ccircle cx='230' cy='145' r='6' fill='%2332CD32' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EPad Thai%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "200g rijstnoedels",
+                    "200g garnalen, gepeld",
+                    "2 eieren",
+                    "3 el tamarindeconcentraat",
+                    "2 el vissaus",
+                    "1 el bruine suiker",
+                    "100g taugé",
+                    "3 el gehakte pinda's",
+                    "2 lente-uitjes",
+                    "Koriander en limoen"
+                ],
+                steps: [
+                    "Week de rijstnoedels 20 minuten in warm water, laat uitlekken.",
+                    "Mix tamarinde, vissaus en suiker voor de saus.",
+                    "Verhit wok op hoog vuur, bak garnalen gaar en haal uit de pan.",
+                    "Klop eieren, bak ze in de wok en roer tot roerei.",
+                    "Voeg noedels toe en roerbak 2 minuten.",
+                    "Voeg saus, garnalen, taugé en lente-ui toe, roerbak 1 minuut.",
+                    "Garneer met pinda's, koriander en limoenpartjes."
+                ]
+            },
+            {
+                name: "Beef Bourguignon",
+                origin: "Frankrijk",
+                region: "europa",
+                description: "Klassieke Franse stoofschotel met rundvlees in rode wijn.",
+                time: "3 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg3' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23E8D5C4'/%3E%3Cstop offset='100%25' style='stop-color:%23D4C5B0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg3)'/%3E%3Cellipse cx='200' cy='160' rx='110' ry='70' fill='%238B4513' opacity='0.5'/%3E%3Cellipse cx='200' cy='155' rx='100' ry='60' fill='%23A0522D' opacity='0.6'/%3E%3Ccircle cx='170' cy='140' r='15' fill='%236B4423' opacity='0.7'/%3E%3Ccircle cx='210' cy='150' r='18' fill='%236B4423' opacity='0.7'/%3E%3Ccircle cx='190' cy='165' r='12' fill='%236B4423' opacity='0.7'/%3E%3Cpath d='M 160 145 Q 165 140 170 145' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EBeef Bourguignon%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1kg runderstoofvlees, in blokjes",
+                    "200g gerookte spekblokjes",
+                    "2 uien, gesnipperd",
+                    "3 wortels, in stukken",
+                    "250g champignons",
+                    "750ml rode wijn (Bourgogne)",
+                    "2 el tomatenpuree",
+                    "2 laurierblaadjes",
+                    "Tijm en peterselie",
+                    "Bloem, boter, zout, peper"
+                ],
+                steps: [
+                    "Bestrooi vlees met bloem, bruin aan in boter, haal uit de pan.",
+                    "Bak spekblokjes knapperig, voeg uien en wortels toe.",
+                    "Voeg tomatenpuree toe, bak 1 minuut.",
+                    "Voeg vlees terug, blus met rode wijn, voeg kruiden toe.",
+                    "Laat 2,5 uur zachtjes sudderen met deksel.",
+                    "Bak champignons apart, voeg toe laatste 30 minuten.",
+                    "Dik indien nodig in met bloem-boter mengsel.",
+                    "Serveer met aardappelpuree of stokbrood."
+                ]
+            },
+            {
+                name: "Sushi",
+                origin: "Japan",
+                region: "azie",
+                description: "Japanse delicatesse van rijst met rauwe vis, omwikkeld met nori.",
+                time: "45 min",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg4' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F0F8FF'/%3E%3Cstop offset='100%25' style='stop-color:%23E6F3FF'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg4)'/%3E%3Crect x='80' y='100' width='50' height='80' rx='5' fill='%232F4F4F' opacity='0.8'/%3E%3Crect x='85' y='105' width='40' height='70' fill='white' opacity='0.9'/%3E%3Crect x='85' y='130' width='40' height='15' fill='%23FF6347' opacity='0.8'/%3E%3Crect x='160' y='100' width='50' height='80' rx='5' fill='%232F4F4F' opacity='0.8'/%3E%3Crect x='165' y='105' width='40' height='70' fill='white' opacity='0.9'/%3E%3Crect x='165' y='125' width='40' height='15' fill='%23FFA500' opacity='0.8'/%3E%3Crect x='240' y='100' width='50' height='80' rx='5' fill='%232F4F4F' opacity='0.8'/%3E%3Crect x='245' y='105' width='40' height='70' fill='white' opacity='0.9'/%3E%3Crect x='245' y='135' width='40' height='10' fill='%2332CD32' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ESushi%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "300g sushirijst",
+                    "3 el rijstazijn",
+                    "1 el suiker",
+                    "1 tl zout",
+                    "4 nori vellen",
+                    "200g verse zalm",
+                    "1 avocado",
+                    "1 komkommer",
+                    "Wasabi en sojasaus",
+                    "Gesuikerde gember"
+                ],
+                steps: [
+                    "Kook sushirijst volgens verpakking, laat afkoelen.",
+                    "Mix rijstazijn, suiker en zout, meng door rijst.",
+                    "Leg nori vel op bamboemat, glanzende kant beneden.",
+                    "Verdeel dunne laag rijst over nori, laat 2 cm vrij.",
+                    "Leg vis, avocado en komkommer op een lijn.",
+                    "Rol strak op met de mat, vochtig mes voor strakke rol.",
+                    "Snijd in 8 gelijke stukken met nat mes.",
+                    "Serveer met wasabi, sojasaus en gember."
+                ]
+            },
+            {
+                name: "Tacos al Pastor",
+                origin: "Mexico",
+                region: "amerika",
+                description: "Mexicaanse straattaco's met gekruide varkensvlees en ananas.",
+                time: "2 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg5' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8DC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg5)'/%3E%3Cellipse cx='200' cy='160' rx='90' ry='50' fill='%23F4A460' opacity='0.6' transform='rotate(-15 200 160)'/%3E%3Crect x='140' y='120' width='120' height='70' fill='%23D2691E' opacity='0.7' rx='5'/%3E%3Ccircle cx='180' cy='130' r='8' fill='%23FFD700' opacity='0.8'/%3E%3Ccircle cx='220' cy='140' r='8' fill='%23FFD700' opacity='0.8'/%3E%3Cpath d='M 160 165 Q 170 160 180 165' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Cpath d='M 200 170 Q 210 165 220 170' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ccircle cx='190' cy='145' r='6' fill='%23FF6347' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ETacos al Pastor%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "600g varkensschouder, dun gesneden",
+                    "3 gedroogde chilipepers",
+                    "1 ananas, in stukjes",
+                    "3 teentjes knoflook",
+                    "1 el azijn",
+                    "1 tl komijn",
+                    "1 tl oregano",
+                    "12 maïstortillas",
+                    "Koriander, ui en limoen"
+                ],
+                steps: [
+                    "Week chilipepers 20 min in heet water.",
+                    "Mix chilipepers, knoflook, azijn en kruiden tot marinade.",
+                    "Marineer varkensvlees minstens 1 uur (liefst overnight).",
+                    "Gril vlees op hoog vuur tot krokant en gaar.",
+                    "Gril ananasplakken kort aan beide kanten.",
+                    "Verwarm tortillas kort op droge pan.",
+                    "Snijd vlees in kleine stukjes.",
+                    "Vul tortillas met vlees, ananas, ui, koriander en limoen."
+                ]
+            },
+            {
+                name: "Paella",
+                origin: "Spanje",
+                region: "europa",
+                description: "Spaanse rijstschotel met zeevruchten en saffraan uit Valencia.",
+                time: "1 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg6' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF4E6'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE8CC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg6)'/%3E%3Cellipse cx='200' cy='150' rx='140' ry='90' fill='%23FFD700' opacity='0.4'/%3E%3Cellipse cx='200' cy='145' rx='130' ry='80' fill='%23F4A460' opacity='0.5'/%3E%3Ccircle cx='160' cy='130' r='15' fill='%23FF6347' opacity='0.7'/%3E%3Ccircle cx='240' cy='135' r='15' fill='%23FF6347' opacity='0.7'/%3E%3Cellipse cx='200' cy='160' rx='20' ry='15' fill='%23FFB6C1' opacity='0.8'/%3E%3Crect x='180' y='125' width='6' height='20' fill='%2332CD32' opacity='0.7'/%3E%3Crect x='220' y='130' width='6' height='18' fill='%2332CD32' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EPaella%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g paellarijst (bomba)",
+                    "8 garnalen",
+                    "12 mosselen",
+                    "200g inktvis ringen",
+                    "1 ui, gesnipperd",
+                    "2 tomaten, geraspt",
+                    "1 paprika, in reepjes",
+                    "0,5g saffraan",
+                    "1L visboullion",
+                    "Olijfolie, knoflook, peterselie"
+                ],
+                steps: [
+                    "Los saffraan op in warme bouillon.",
+                    "Verhit olijfolie in paellapan, bak garnalen kort, haal eruit.",
+                    "Bak ui, knoflook en paprika glazig.",
+                    "Voeg tomaat toe, bak 5 minuten.",
+                    "Voeg rijst toe, roer 2 minuten mee.",
+                    "Voeg bouillon toe, niet meer roeren, kook 18-20 minuten.",
+                    "Voeg laatste 5 minuten zeevruchten toe.",
+                    "Laat 5 minuten rusten, garneer met peterselie en citroen."
+                ]
+            },
+            {
+                name: "Peking Duck",
+                origin: "China",
+                region: "azie",
+                description: "Krokante Chinese eend met dunne pannenkoeken en hoizinsaus.",
+                time: "24 uur",
+                difficulty: "Zeer Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg7' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF0E6'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE4CC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg7)'/%3E%3Cellipse cx='200' cy='150' rx='100' ry='80' fill='%238B4513' opacity='0.6'/%3E%3Cellipse cx='200' cy='145' rx='90' ry='70' fill='%23D2691E' opacity='0.7'/%3E%3Cpath d='M 150 130 L 160 120 L 170 130' stroke='%23FFD700' stroke-width='3' fill='none' opacity='0.8'/%3E%3Cpath d='M 230 130 L 240 120 L 250 130' stroke='%23FFD700' stroke-width='3' fill='none' opacity='0.8'/%3E%3Ccircle cx='185' cy='155' r='8' fill='%23654321' opacity='0.8'/%3E%3Ccircle cx='215' cy='155' r='8' fill='%23654321' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EPeking Duck%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1 hele eend (circa 2 kg)",
+                    "3 el maltose siroop",
+                    "2 el rijstazijn",
+                    "1 el sojasaus",
+                    "Chinese pannenkoeken",
+                    "Hoizinsaus",
+                    "Lente-uitjes in reepjes",
+                    "Komkommer in reepjes",
+                    "5-kruidenpoeder"
+                ],
+                steps: [
+                    "Blancheer eend 1 minuut in kokend water, dep droog.",
+                    "Bestrijk met maltose-azijn mengsel, hang 12-24 uur te drogen.",
+                    "Verwarm oven voor op 180°C.",
+                    "Rooster eend 1,5 uur, draai elke 30 minuten.",
+                    "Verhoog laatste 15 minuten naar 220°C voor krokante huid.",
+                    "Laat 10 minuten rusten, snijd huid en vlees in plakken.",
+                    "Verwarm pannenkoeken boven stoom.",
+                    "Serveer met hoizinsaus, lente-ui en komkommer in pannenkoeken."
+                ]
+            },
+            {
+                name: "Moussaka",
+                origin: "Griekenland",
+                region: "europa",
+                description: "Griekse ovenschotel met aubergine, gehakt en bechamelsaus.",
+                time: "2 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg8' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F5E6D3'/%3E%3Cstop offset='100%25' style='stop-color:%23E8D4B8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg8)'/%3E%3Crect x='100' y='100' width='200' height='100' fill='%23D2B48C' opacity='0.6' rx='5'/%3E%3Crect x='105' y='140' width='190' height='30' fill='%238B4513' opacity='0.5'/%3E%3Crect x='105' y='110' width='190' height='25' fill='%23DEB887' opacity='0.6'/%3E%3Crect x='105' y='175' width='190' height='20' fill='%23F5DEB3' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EMoussaka%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "3 aubergines, in plakken",
+                    "500g rundergehakt",
+                    "1 ui, gesnipperd",
+                    "2 teentjes knoflook",
+                    "400g tomaten uit blik",
+                    "100ml rode wijn",
+                    "Kaneel, oregano",
+                    "50g boter",
+                    "50g bloem",
+                    "500ml melk",
+                    "2 eieren",
+                    "100g Parmezaanse kaas"
+                ],
+                steps: [
+                    "Bestrooi aubergine met zout, laat 30 min uitlekken.",
+                    "Bak aubergine goudbruin in olijfolie, dep droog.",
+                    "Bak gehakt met ui en knoflook, voeg wijn, tomaten en kruiden toe, sudder 30 min.",
+                    "Maak bechamel: smelt boter, roer bloem erdoor, voeg geleidelijk melk toe.",
+                    "Klop eieren en kaas door bechamel als deze afgekoeld is.",
+                    "Laag aubergine in ovenschaal, daarop gehakt, herhaal.",
+                    "Dek af met bechamel, bestrooi met extra kaas.",
+                    "Bak 45 min op 180°C tot goudbruin."
+                ]
+            },
+            {
+                name: "Ceviche",
+                origin: "Peru",
+                region: "amerika",
+                description: "Verse rauwe vis gemarineerd in limoen met koriander en ui.",
+                time: "20 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg9' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F0FFFF'/%3E%3Cstop offset='100%25' style='stop-color:%23E0F8F8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg9)'/%3E%3Cellipse cx='200' cy='150' rx='110' ry='60' fill='white' opacity='0.8'/%3E%3Crect x='160' y='130' width='30' height='20' fill='%23FFB6C1' opacity='0.7' rx='3'/%3E%3Crect x='200' y='135' width='35' height='22' fill='%23FFB6C1' opacity='0.7' rx='3'/%3E%3Crect x='170' y='155' width='28' height='18' fill='%23FFB6C1' opacity='0.7' rx='3'/%3E%3Ccircle cx='185' cy='140' r='5' fill='%2332CD32' opacity='0.8'/%3E%3Ccircle cx='220' cy='145' r='5' fill='%2332CD32' opacity='0.8'/%3E%3Ccircle cx='195' cy='160' r='4' fill='%23FF6347' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ECeviche%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g verse witte vis (zeebaars/heilbot)",
+                    "150ml verse limoensap",
+                    "1 rode ui, fijngesneden",
+                    "1 rode peper, fijngesneden",
+                    "Handvol koriander",
+                    "1 zoete aardappel",
+                    "Maïskorrels",
+                    "Zout en peper"
+                ],
+                steps: [
+                    "Snijd vis in kleine blokjes van 1 cm.",
+                    "Meng vis met limoensap, zorg dat alles bedekt is.",
+                    "Marineer 15-20 minuten in koelkast tot vis 'gekookt' lijkt.",
+                    "Voeg rode ui, peper en koriander toe.",
+                    "Kook zoete aardappel, snijd in plakken.",
+                    "Breng op smaak met zout en peper.",
+                    "Serveer direct met zoete aardappel en maïs."
+                ]
+            },
+            {
+                name: "Rendang",
+                origin: "Indonesië",
+                region: "azie",
+                description: "Indonesische stoofschotel met rundvlees in kokosmelk en specerijen.",
+                time: "4 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg10' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F4E4D7'/%3E%3Cstop offset='100%25' style='stop-color:%23E8D4C0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg10)'/%3E%3Cellipse cx='200' cy='150' rx='120' ry='75' fill='%238B4513' opacity='0.5'/%3E%3Cellipse cx='200' cy='145' rx='110' ry='65' fill='%23A0522D' opacity='0.6'/%3E%3Ccircle cx='175' cy='135' r='18' fill='%23654321' opacity='0.8'/%3E%3Ccircle cx='210' cy='145' r='20' fill='%23654321' opacity='0.8'/%3E%3Ccircle cx='195' cy='160' r='15' fill='%23654321' opacity='0.8'/%3E%3Cpath d='M 160 155 Q 165 150 170 155' stroke='%23DC143C' stroke-width='2' fill='none'/%3E%3Cpath d='M 220 150 Q 225 145 230 150' stroke='%23DC143C' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ERendang%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1kg runderstoofvlees, in blokken",
+                    "400ml kokosmelk",
+                    "3 el rendang pasta",
+                    "2 steranijs",
+                    "2 kaneelstokjes",
+                    "4 kaffir limoenblaadjes",
+                    "2 el tamarinde",
+                    "2 el bruine suiker",
+                    "Zout naar smaak"
+                ],
+                steps: [
+                    "Bak rendang pasta aan in grote pan tot geurig.",
+                    "Voeg rundvlees toe, bak tot bruin van alle kanten.",
+                    "Voeg kokosmelk, steranijs, kaneel en kaffir bladeren toe.",
+                    "Breng aan de kook, reduceer dan tot laag vuur.",
+                    "Sudder 3-4 uur tot vlees mals is en saus dik.",
+                    "Roer regelmatig, vooral laatste uur om aanbranden te voorkomen.",
+                    "Voeg tamarinde en suiker toe laatste 30 minuten.",
+                    "Kook door tot olie zich afscheidt. Serveer met rijst."
+                ]
+            },
+            {
+                name: "Ratatouille",
+                origin: "Frankrijk",
+                region: "europa",
+                description: "Provençaalse groenteschotel met aubergine, courgette en tomaat.",
+                time: "1,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg11' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8E7'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg11)'/%3E%3Cellipse cx='200' cy='150' rx='100' ry='70' fill='%23556B2F' opacity='0.3'/%3E%3Ccircle cx='180' cy='140' r='25' fill='%238B4789' opacity='0.6'/%3E%3Ccircle cx='220' cy='140' r='25' fill='%2332CD32' opacity='0.6'/%3E%3Ccircle cx='200' cy='165' r='25' fill='%23FF6347' opacity='0.6'/%3E%3Ccircle cx='170' cy='160' r='20' fill='%23FFD700' opacity='0.6'/%3E%3Ccircle cx='230' cy='160' r='20' fill='%23FF6347' opacity='0.6'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ERatatouille%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "2 aubergines",
+                    "3 courgettes",
+                    "2 paprika's (rood en geel)",
+                    "5 tomaten",
+                    "1 ui",
+                    "4 teentjes knoflook",
+                    "Tijm, rozemarijn",
+                    "Olijfolie",
+                    "Zout en peper"
+                ],
+                steps: [
+                    "Snijd alle groenten in dunne plakken van 3mm.",
+                    "Bak ui en knoflook glazig in olijfolie.",
+                    "Voeg kruiden toe, bak 1 minuut.",
+                    "Smeer tomatensaus op bodem ovenschaal.",
+                    "Schik groenteplakken rechtop in cirkelvorm, afwisselend.",
+                    "Besprenkel met olijfolie, zout, peper en tijm.",
+                    "Dek af met bakpapier, bak 45 min op 180°C.",
+                    "Verwijder papier, bak nog 15 min voor lichte kleuring."
+                ]
+            },
+            {
+                name: "Biryani",
+                origin: "India",
+                region: "azie",
+                description: "Aromatische Indiase rijstschotel met gekruid vlees en saffraan.",
+                time: "2 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg12' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8DC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg12)'/%3E%3Cellipse cx='200' cy='150' rx='120' ry='80' fill='%23FFD700' opacity='0.4'/%3E%3Crect x='150' y='120' width='100' height='60' fill='%23DEB887' opacity='0.6' rx='5'/%3E%3Ccircle cx='170' cy='135' r='8' fill='%23FF6347' opacity='0.7'/%3E%3Ccircle cx='200' cy='140' r='8' fill='%2332CD32' opacity='0.7'/%3E%3Ccircle cx='230' cy='135' r='8' fill='%23FFD700' opacity='0.7'/%3E%3Cpath d='M 180 160 L 185 155 L 190 160' stroke='%238B4513' stroke-width='2' fill='none'/%3E%3Cpath d='M 210 160 L 215 155 L 220 160' stroke='%238B4513' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EBiryani%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "500g basmatirijst",
+                    "600g kip, in stukken",
+                    "200ml yoghurt",
+                    "2 uien, gefrituurde",
+                    "4 teentjes knoflook",
+                    "Stuk gember",
+                    "Garam masala, kurkuma, kardemom",
+                    "Saffraan + melk",
+                    "Koriander en munt",
+                    "Ghee of boter"
+                ],
+                steps: [
+                    "Marineer kip 1 uur in yoghurt, knoflook, gember en specerijen.",
+                    "Kook rijst 70% gaar in gezouten water met hele specerijen.",
+                    "Los saffraan op in warme melk.",
+                    "Bak kip in dikke pan tot bijna gaar.",
+                    "Schep rijst over kip, besprenkel met saffraan-melk.",
+                    "Garneer met gefrituurdeuien, koriander en munt.",
+                    "Dek af met strak deksel, stoom 20-25 min op laag vuur.",
+                    "Laat 5 min rusten, meng voorzichtig door."
+                ]
+            },
+            {
+                name: "Phở",
+                origin: "Vietnam",
+                region: "azie",
+                description: "Aromatische Vietnamese noedelsoep met rundvlees.",
+                time: "3 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg13' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8F0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFF0E0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg13)'/%3E%3Cellipse cx='200' cy='150' rx='130' ry='85' fill='%23F5DEB3' opacity='0.5'/%3E%3Cpath d='M 120 140 Q 150 125 180 140' stroke='%23DEB887' stroke-width='6' fill='none' opacity='0.7'/%3E%3Cpath d='M 140 155 Q 170 140 200 155' stroke='%23DEB887' stroke-width='6' fill='none' opacity='0.7'/%3E%3Cpath d='M 200 145 Q 230 130 260 145' stroke='%23DEB887' stroke-width='6' fill='none' opacity='0.7'/%3E%3Crect x='180' y='125' width='40' height='20' fill='%23A0522D' opacity='0.6' rx='3'/%3E%3Cpath d='M 160 165 L 165 160 L 170 165' stroke='%2332CD32' stroke-width='2' fill='%2332CD32' opacity='0.7'/%3E%3Cpath d='M 230 160 L 235 155 L 240 160' stroke='%2332CD32' stroke-width='2' fill='%2332CD32' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EPhở%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1kg runderbotten",
+                    "500g runderribstuk",
+                    "2 uien, gehalveerd",
+                    "Stuk gember (8 cm)",
+                    "4 steranijs",
+                    "1 kaneelstokje",
+                    "5 kruidnagels",
+                    "Vissaus",
+                    "400g platte rijstnoedels",
+                    "Taugé, basilicum, limoen, koriander"
+                ],
+                steps: [
+                    "Schroei ui en gember boven vlam tot zwart.",
+                    "Kook botten 5 min, spoel af (verwijdert onzuiverheden).",
+                    "Kook botten 2-3 uur met ui, gember en specerijen.",
+                    "Voeg vissaus toe, zeef bouillon.",
+                    "Snijd rauw rundvlees in dunne plakken.",
+                    "Week noedels in heet water volgens verpakking.",
+                    "Verdeel noedels en rauw vlees over kommen.",
+                    "Giet kokende bouillon erover, garneer met kruiden en limoen."
+                ]
+            },
+            {
+                name: "Feijoada",
+                origin: "Brazilië",
+                region: "amerika",
+                description: "Braziliaanse stoofschotel met zwarte bonen en diverse vleessoorten.",
+                time: "3 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg14' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F5E6D3'/%3E%3Cstop offset='100%25' style='stop-color:%23E8D4B8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg14)'/%3E%3Cellipse cx='200' cy='150' rx='110' ry='75' fill='%232F4F4F' opacity='0.6'/%3E%3Cellipse cx='200' cy='145' rx='100' ry='65' fill='%23000000' opacity='0.5'/%3E%3Ccircle cx='175' cy='135' r='12' fill='%238B4513' opacity='0.8'/%3E%3Ccircle cx='210' cy='140' r='15' fill='%23A0522D' opacity='0.8'/%3E%3Ccircle cx='195' cy='160' r='10' fill='%23CD5C5C' opacity='0.8'/%3E%3Cpath d='M 165 155 Q 170 150 175 155' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EFeijoada%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "500g zwarte bonen, geweekt",
+                    "300g varkenspootjes",
+                    "200g gerookte worst",
+                    "200g bacon",
+                    "2 laurierblaadjes",
+                    "4 teentjes knoflook",
+                    "2 uien, gesnipperd",
+                    "Peper en zout",
+                    "Sinaasappel en koriander"
+                ],
+                steps: [
+                    "Kook bonen met vers water en laurier 1,5 uur tot zacht.",
+                    "Kook varkenspootjes apart 1 uur tot mals.",
+                    "Snijd bacon en worst in stukken.",
+                    "Bak bacon, worst, ui en knoflook in grote pan.",
+                    "Voeg bonen met kookvocht en varkensvlees toe.",
+                    "Sudder alles samen 1 uur, roer regelmatig.",
+                    "Prak wat bonen voor romigheid.",
+                    "Serveer met rijst, sinaasappelpartjes en gefrituurd maniok."
+                ]
+            },
+            {
+                name: "Coq au Vin",
+                origin: "Frankrijk",
+                region: "europa",
+                description: "Franse kipstoofpot in rode wijn met champignons en spek.",
+                time: "2 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg15' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F0E6DC'/%3E%3Cstop offset='100%25' style='stop-color:%23E0D4C8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg15)'/%3E%3Cellipse cx='200' cy='150' rx='110' ry='70' fill='%23722F37' opacity='0.5'/%3E%3Cellipse cx='200' cy='145' rx='100' ry='60' fill='%238B4513' opacity='0.6'/%3E%3Crect x='170' y='130' width='30' height='20' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Crect x='210' y='135' width='35' height='22' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Ccircle cx='185' cy='160' r='12' fill='%238B7355' opacity='0.8'/%3E%3Ccircle cx='220' cy='157' r='14' fill='%238B7355' opacity='0.8'/%3E%3Cpath d='M 160 145 Q 165 140 170 145' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ECoq au Vin%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1 hele kip, in stukken",
+                    "200g gerookt spek, in blokjes",
+                    "250g champignons",
+                    "12 zilveruitjes",
+                    "750ml rode wijn",
+                    "2 el cognac",
+                    "2 wortels",
+                    "2 teentjes knoflook",
+                    "Tijm, laurier",
+                    "Bloem, boter"
+                ],
+                steps: [
+                    "Bestrooi kip met bloem, zout en peper.",
+                    "Bak spekblokjes knapperig, haal uit de pan.",
+                    "Bak kip goudbruin in spekvet, voeg cognac toe en flambeer.",
+                    "Haal kip eruit, bak ui, wortel en champignons.",
+                    "Voeg kip terug, voeg rode wijn en kruiden toe.",
+                    "Breng aan de kook, dek af en sudder 1,5 uur.",
+                    "Voeg spek toe laatste 15 minuten.",
+                    "Dik saus in met bloem-boter mengsel indien nodig."
+                ]
+            },
+            {
+                name: "Goulash",
+                origin: "Hongarije",
+                region: "europa",
+                description: "Hongaarse stoofschotel met rundvlees en paprika.",
+                time: "2,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg16' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F5E8DC'/%3E%3Cstop offset='100%25' style='stop-color:%23E8D8C8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg16)'/%3E%3Cellipse cx='200' cy='150' rx='115' ry='75' fill='%23DC143C' opacity='0.4'/%3E%3Cellipse cx='200' cy='145' rx='105' ry='65' fill='%23A0522D' opacity='0.6'/%3E%3Crect x='175' y='130' width='25' height='18' fill='%238B4513' opacity='0.7' rx='2'/%3E%3Crect x='210' y='135' width='30' height='20' fill='%238B4513' opacity='0.7' rx='2'/%3E%3Ccircle cx='190' cy='160' r='10' fill='%23CD5C5C' opacity='0.8'/%3E%3Ccircle cx='220' cy='157' r='12' fill='%23CD5C5C' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EGoulash%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "800g runderstoofvlees",
+                    "3 uien, grofgesneden",
+                    "3 el zoete paprikapoeder",
+                    "2 el tomatenpuree",
+                    "2 paprika's, in stukken",
+                    "3 aardappels, in blokjes",
+                    "2 teentjes knoflook",
+                    "Komijnzaad",
+                    "Runderbouillon",
+                    "Zure room"
+                ],
+                steps: [
+                    "Bak ui glazig in grote pan met wat olie.",
+                    "Voeg paprikapoeder toe, roer direct door (niet laten branden!).",
+                    "Voeg vlees toe, dicht kort aan.",
+                    "Voeg tomatenpuree, knoflook en komijn toe.",
+                    "Giet bouillon erbij tot vlees net onder staat.",
+                    "Sudder 1,5 uur met deksel op laag vuur.",
+                    "Voeg paprika en aardappel toe, kook nog 30 minuten.",
+                    "Serveer met een klodder zure room en brood."
+                ]
+            },
+            {
+                name: "Shakshuka",
+                origin: "Israël/Noord-Afrika",
+                region: "afrika",
+                description: "Gepocheerde eieren in pittige tomatensaus met paprika.",
+                time: "30 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg17' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF5E6'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE8CC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg17)'/%3E%3Cellipse cx='200' cy='150' rx='120' ry='80' fill='%23FF6347' opacity='0.6'/%3E%3Ccircle cx='170' cy='140' r='25' fill='%23FFD700' opacity='0.7'/%3E%3Ccircle cx='170' cy='140' r='15' fill='%23FFA500' opacity='0.8'/%3E%3Ccircle cx='230' cy='145' r='25' fill='%23FFD700' opacity='0.7'/%3E%3Ccircle cx='230' cy='145' r='15' fill='%23FFA500' opacity='0.8'/%3E%3Cpath d='M 180 170 Q 185 165 190 170' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Cpath d='M 210 172 Q 215 167 220 172' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EShakshuka%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1 blik tomatenblokjes (400g)",
+                    "2 paprika's, in reepjes",
+                    "1 ui, gesnipperd",
+                    "3 teentjes knoflook",
+                    "1 tl komijn",
+                    "1 tl paprikapoeder",
+                    "Snufje cayennepeper",
+                    "4-6 eieren",
+                    "Feta kaas",
+                    "Verse koriander of peterselie"
+                ],
+                steps: [
+                    "Bak ui en paprika 5 min in olijfolie.",
+                    "Voeg knoflook en specerijen toe, bak 1 minuut.",
+                    "Voeg tomatenblokjes toe, laat 10 min indikken.",
+                    "Breng op smaak met zout en peper.",
+                    "Maak kuiltjes in de saus.",
+                    "Breek eieren voorzichtig in kuiltjes.",
+                    "Dek af en laat 7-10 min sudderen tot eiwit gestold is.",
+                    "Garneer met feta en verse kruiden, serveer met brood."
+                ]
+            },
+            {
+                name: "Laksa",
+                origin: "Maleisië/Singapore",
+                region: "azie",
+                description: "Pittige kokos-noedelsoep met garnalen en verse kruiden.",
+                time: "45 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg18' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8F0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFF0DC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg18)'/%3E%3Cellipse cx='200' cy='150' rx='125' ry='80' fill='%23FF8C00' opacity='0.4'/%3E%3Cpath d='M 130 145 Q 160 130 190 145' stroke='%23FFE4B5' stroke-width='7' fill='none' opacity='0.7'/%3E%3Cpath d='M 150 160 Q 180 145 210 160' stroke='%23FFE4B5' stroke-width='7' fill='none' opacity='0.7'/%3E%3Cpath d='M 210 150 Q 240 135 270 150' stroke='%23FFE4B5' stroke-width='7' fill='none' opacity='0.7'/%3E%3Cellipse cx='190' cy='138' rx='20' ry='12' fill='%23FFB6C1' opacity='0.8'/%3E%3Cellipse cx='235' cy='143' rx='18' ry='11' fill='%23FFB6C1' opacity='0.8'/%3E%3Cpath d='M 165 165 L 170 160 L 175 165' stroke='%2332CD32' stroke-width='2' fill='%2332CD32'/%3E%3Ccircle cx='225' cy='163' r='5' fill='%23DC143C' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ELaksa%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "200g rijstnoedels",
+                    "300g garnalen",
+                    "400ml kokosmelk",
+                    "3 el laksa pasta",
+                    "2 el garnalenpasta",
+                    "500ml kippenbouillon",
+                    "200g taugé",
+                    "Tofoe puffs",
+                    "Verse munt en koriander",
+                    "Limoen"
+                ],
+                steps: [
+                    "Bak laksa pasta en garnalenpasta 2 min aan.",
+                    "Voeg bouillon en kokosmelk toe, breng aan de kook.",
+                    "Laat 10 minuten zachtjes koken.",
+                    "Kook noedels apart volgens verpakking.",
+                    "Voeg garnalen toe aan bouillon, kook 3-4 minuten.",
+                    "Verdeel noedels over kommen.",
+                    "Schep bouillon met garnalen erover.",
+                    "Garneer met taugé, tofoe, kruiden en limoen."
+                ]
+            },
+            {
+                name: "Risotto",
+                origin: "Italië",
+                region: "europa",
+                description: "Romige Italiaanse rijstschotel, hier met paddenstoelen.",
+                time: "40 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg19' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFFFF0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFFACD'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg19)'/%3E%3Cellipse cx='200' cy='150' rx='110' ry='70' fill='%23F5DEB3' opacity='0.6'/%3E%3Cellipse cx='200' cy='145' rx='100' ry='60' fill='%23FFEFD5' opacity='0.7'/%3E%3Ccircle cx='175' cy='140' r='15' fill='%238B7355' opacity='0.6'/%3E%3Ccircle cx='210' cy='145' r='18' fill='%238B7355' opacity='0.6'/%3E%3Ccircle cx='195' cy='160' r='12' fill='%238B7355' opacity='0.6'/%3E%3Cpath d='M 220 135 Q 225 130 230 135' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ERisotto%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "300g arborio rijst",
+                    "300g gemengde paddenstoelen",
+                    "1L warme groentebouillon",
+                    "1 ui, fijngesnipperd",
+                    "2 teentjes knoflook",
+                    "100ml witte wijn",
+                    "50g Parmezaanse kaas",
+                    "50g boter",
+                    "Tijm en peterselie",
+                    "Olijfolie"
+                ],
+                steps: [
+                    "Bak paddenstoelen in boter tot goudbruin, haal eruit.",
+                    "Fruit ui en knoflook glazig in olijfolie.",
+                    "Voeg rijst toe, roer 2 minuten tot glazig.",
+                    "Blus met witte wijn, roer tot opgenomen.",
+                    "Voeg bouillon toe, één pollepel per keer, blijf roeren.",
+                    "Blijf bouillon toevoegen en roeren, 18-20 minuten.",
+                    "Roer laatste 5 minuten paddenstoelen erdoor.",
+                    "Haal van vuur, roer boter en Parmezaan erdoor, laat 2 min rusten."
+                ]
+            },
+            {
+                name: "Satay",
+                origin: "Indonesië/Maleisië",
+                region: "azie",
+                description: "Gemarineerde vleesspiesjes met pindasaus.",
+                time: "1 uur",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg20' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8E7'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg20)'/%3E%3Crect x='140' y='90' width='15' height='120' fill='%23D2691E' opacity='0.4'/%3E%3Crect x='192' y='90' width='15' height='120' fill='%23D2691E' opacity='0.4'/%3E%3Crect x='244' y='90' width='15' height='120' fill='%23D2691E' opacity='0.4'/%3E%3Crect x='135' y='95' width='25' height='20' rx='3' fill='%23A0522D' opacity='0.8'/%3E%3Crect x='135' y='125' width='25' height='20' rx='3' fill='%23A0522D' opacity='0.8'/%3E%3Crect x='135' y='155' width='25' height='20' rx='3' fill='%23A0522D' opacity='0.8'/%3E%3Crect x='187' y='100' width='25' height='20' rx='3' fill='%23A0522D' opacity='0.8'/%3E%3Crect x='187' y='130' width='25' height='20' rx='3' fill='%23A0522D' opacity='0.8'/%3E%3Crect x='239' y='105' width='25' height='20' rx='3' fill='%23A0522D' opacity='0.8'/%3E%3Crect x='239' y='135' width='25' height='20' rx='3' fill='%23A0522D' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ESatay%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "500g kipfilet, in blokjes",
+                    "2 el sojasaus",
+                    "1 el vissaus",
+                    "1 el suiker",
+                    "1 tl kurkuma",
+                    "Knoflook en gember",
+                    "200g pindakaas",
+                    "200ml kokosmelk",
+                    "2 el sambal",
+                    "Limoensap",
+                    "Houten satéstokjes"
+                ],
+                steps: [
+                    "Marineer kip minstens 30 min in sojasaus, vissaus, suiker, kurkuma, knoflook.",
+                    "Week houten stokjes 20 min in water.",
+                    "Rijg kip op stokjes.",
+                    "Maak saus: verhit pindakaas met kokosmelk, sambal en limoensap.",
+                    "Gril satés 3-4 min per kant tot gaar en licht verkoolde randjes.",
+                    "Serveer met pindasaus, komkommer en uitjes."
+                ]
+            },
+            {
+                name: "Wiener Schnitzel",
+                origin: "Oostenrijk",
+                region: "europa",
+                description: "Gepaneerd kalfsvlees, knapperig gebakken.",
+                time: "30 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg21' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8DC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg21)'/%3E%3Cellipse cx='200' cy='150' rx='110' ry='70' fill='%23FFD700' opacity='0.5'/%3E%3Cellipse cx='200' cy='148' rx='100' ry='60' fill='%23F4A460' opacity='0.6'/%3E%3Cpath d='M 140 140 Q 145 135 150 140' stroke='%23DEB887' stroke-width='2' fill='none'/%3E%3Cpath d='M 250 145 Q 255 140 260 145' stroke='%23DEB887' stroke-width='2' fill='none'/%3E%3Ccircle cx='220' cy='140' r='6' fill='%23FFD700' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EWiener Schnitzel%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "4 kalfsschnitzels (of varkenslap)",
+                    "100g bloem",
+                    "2 eieren, geklopt",
+                    "150g paneermeel",
+                    "Zout en peper",
+                    "Boter of reuzel",
+                    "Citroen",
+                    "Peterselie"
+                ],
+                steps: [
+                    "Klop schnitzels plat tot 3-4 mm dik.",
+                    "Kruid met zout en peper.",
+                    "Haal door bloem, dan ei, dan paneermeel.",
+                    "Verhit royaal vet in grote koekenpan.",
+                    "Bak schnitzels 3-4 min per kant goudbruin.",
+                    "Laat uitlekken op keukenpapier.",
+                    "Serveer direct met citroenpartjes en peterselie."
+                ]
+            },
+            {
+                name: "Pavlova",
+                origin: "Australië/Nieuw-Zeeland",
+                region: "oceanie",
+                description: "Luchtige meringue met slagroom en vers fruit.",
+                time: "2 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg22' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF5F7'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE8F0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg22)'/%3E%3Cellipse cx='200' cy='160' rx='100' ry='60' fill='white' opacity='0.9'/%3E%3Cellipse cx='200' cy='130' rx='85' ry='50' fill='%23FFF8DC' opacity='0.8'/%3E%3Ccircle cx='180' cy='120' r='12' fill='%23FF1493' opacity='0.8'/%3E%3Ccircle cx='215' cy='115' r='10' fill='%23DC143C' opacity='0.8'/%3E%3Ccircle cx='200' cy='140' r='8' fill='%234169E1' opacity='0.8'/%3E%3Ccircle cx='190' cy='130' r='9' fill='%2332CD32' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EPavlova%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "4 eiwitten",
+                    "250g fijne kristalsuiker",
+                    "1 tl maïzena",
+                    "1 tl witte azijn",
+                    "300ml slagroom",
+                    "2 el poedersuiker",
+                    "Vanille-extract",
+                    "Vers fruit (aardbeien, kiwi, passievrucht)"
+                ],
+                steps: [
+                    "Verwarm oven voor op 150°C.",
+                    "Klop eiwitten stijf, voeg geleidelijk suiker toe.",
+                    "Klop 10 minuten tot glanzend en stijf.",
+                    "Vouw maïzena en azijn erdoor.",
+                    "Schep op bakpapier in cirkel van 20 cm, maak kuil in midden.",
+                    "Bak 1 uur, zet oven uit, laat 1 uur afkoelen in oven.",
+                    "Klop slagroom met poedersuiker en vanille.",
+                    "Vul pavlova met slagroom en garneer met fruit."
+                ]
+            },
+            {
+                name: "Meat Pie",
+                origin: "Australië",
+                region: "oceanie",
+                description: "Australische vleespastei met gehakt in bladerdeeg.",
+                time: "1 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg23' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F5E6D3'/%3E%3Cstop offset='100%25' style='stop-color:%23E8D4B8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg23)'/%3E%3Ccircle cx='200' cy='150' r='80' fill='%23D2691E' opacity='0.6'/%3E%3Ccircle cx='200' cy='150' r='70' fill='%23CD853F' opacity='0.7'/%3E%3Ccircle cx='200' cy='150' r='50' fill='%238B4513' opacity='0.5'/%3E%3Cpath d='M 200 100 L 210 110' stroke='%23A0522D' stroke-width='3'/%3E%3Cpath d='M 200 100 L 190 110' stroke='%23A0522D' stroke-width='3'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EMeat Pie%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "500g rundergehakt",
+                    "1 ui, gesnipperd",
+                    "2 el tomatenpuree",
+                    "250ml runderbouillon",
+                    "2 el Worcestershire saus",
+                    "1 el bloem",
+                    "2 rollen bladerdeeg",
+                    "1 ei, geklopt",
+                    "Zout, peper, tijm"
+                ],
+                steps: [
+                    "Bak ui en gehakt bruin, voeg tomatenpuree toe.",
+                    "Bestrooi met bloem, roer goed door.",
+                    "Voeg bouillon en Worcestershire saus toe, sudder 20 min.",
+                    "Laat vulling afkoelen.",
+                    "Bekleed vormpjes met bladerdeeg.",
+                    "Vul met vleesmengsel.",
+                    "Dek af met bladerdeeg, druk randen dicht.",
+                    "Bestrijk met ei, bak 25-30 min op 200°C tot goudbruin."
+                ]
+            },
+            {
+                name: "Lamington",
+                origin: "Australië",
+                region: "oceanie",
+                description: "Australisch cakeblokje met chocolade en kokos.",
+                time: "1,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg24' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8F0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE8D0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg24)'/%3E%3Crect x='140' y='110' width='50' height='50' rx='3' fill='%23654321' opacity='0.8'/%3E%3Crect x='210' y='110' width='50' height='50' rx='3' fill='%23654321' opacity='0.8'/%3E%3Crect x='140' y='110' width='50' height='50' rx='3' fill='white' opacity='0.3'/%3E%3Crect x='210' y='110' width='50' height='50' rx='3' fill='white' opacity='0.3'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ELamington%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "200g boter",
+                    "200g suiker",
+                    "4 eieren",
+                    "200g zelfrijzend bakmeel",
+                    "100ml melk",
+                    "Vanille-extract",
+                    "300g poedersuiker",
+                    "50g cacao",
+                    "200g geraspte kokos"
+                ],
+                steps: [
+                    "Klop boter en suiker luchtig, voeg eieren één voor één toe.",
+                    "Vouw meel en melk erdoor met vanille.",
+                    "Bak 30 min op 180°C in vierkante vorm.",
+                    "Laat afkoelen, snijd in blokjes van 5x5 cm.",
+                    "Meng poedersuiker, cacao en water tot dikke glazuur.",
+                    "Doop cakeblokjes in chocoladeglazuur.",
+                    "Rol direct door geraspte kokos.",
+                    "Laat drogen op rooster."
+                ]
+            },
+            {
+                name: "Hangi",
+                origin: "Nieuw-Zeeland",
+                region: "oceanie",
+                description: "Traditioneel Maori gerecht, gestoomd in aardoven.",
+                time: "4 uur",
+                difficulty: "Zeer Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg25' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23E8D5C4'/%3E%3Cstop offset='100%25' style='stop-color:%23D4C5B0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg25)'/%3E%3Cellipse cx='200' cy='170' rx='130' ry='70' fill='%238B7355' opacity='0.5'/%3E%3Crect x='160' y='140' width='35' height='25' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Crect x='205' y='145' width='40' height='28' fill='%23CD853F' opacity='0.7' rx='3'/%3E%3Ccircle cx='180' cy='165' r='15' fill='%23F4A460' opacity='0.8'/%3E%3Ccircle cx='220' cy='168' r='12' fill='%23DEB887' opacity='0.8'/%3E%3Cpath d='M 170 120 Q 180 110 190 115' stroke='%23696969' stroke-width='3' opacity='0.6'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EHangi%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1 kg lamsvlees of varkensvlees",
+                    "6 kippen drumsticks",
+                    "6 zoete aardappels (kumara)",
+                    "4 aardappels",
+                    "3 wortels",
+                    "1 pompoen, in stukken",
+                    "Kool",
+                    "Zout en peper"
+                ],
+                steps: [
+                    "Traditioneel: graaf kuil, verwarm stenen 2 uur met vuur.",
+                    "Modern alternatief: gebruik grote stoompan of slowcooker.",
+                    "Kruid vlees met zout en peper.",
+                    "Leg vlees onderop, daarop zoete aardappels en groenten.",
+                    "Dek af met natte doeken (traditioneel) of deksel.",
+                    "Stoom 3-4 uur op lage temperatuur.",
+                    "Traditioneel bedek met aarde; modern: gewoon deksel erop.",
+                    "Serveer alles samen, vlees moet van het bot vallen."
+                ]
+            },
+            {
+                name: "Bún Chả",
+                origin: "Vietnam",
+                region: "azie",
+                description: "Gegrilde varkensvlees met rijstnoedels en kruiden.",
+                time: "1 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg26' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8E7'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg26)'/%3E%3Cellipse cx='200' cy='150' rx='120' ry='75' fill='%23F5DEB3' opacity='0.5'/%3E%3Crect x='165' y='130' width='30' height='15' fill='%23A0522D' opacity='0.8' rx='7'/%3E%3Crect x='205' y='133' width='35' height='15' fill='%23A0522D' opacity='0.8' rx='7'/%3E%3Cpath d='M 150 160 Q 170 150 190 160' stroke='%23DEB887' stroke-width='5' fill='none'/%3E%3Cpath d='M 210 158 Q 230 148 250 158' stroke='%23DEB887' stroke-width='5' fill='none'/%3E%3Cpath d='M 180 170 L 185 165 L 190 170' stroke='%2332CD32' stroke-width='2' fill='%2332CD32'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EBún Chả%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g varkensbuik, in plakken",
+                    "300g varkensgehakt",
+                    "3 el vissaus",
+                    "2 el suiker",
+                    "Knoflook en citroengras",
+                    "300g rijstvermicelli",
+                    "Sla, munt, koriander",
+                    "Komkommer en wortel",
+                    "Vissaus-dressing met limoen"
+                ],
+                steps: [
+                    "Marineer varkensvlees 30 min in vissaus, suiker, knoflook.",
+                    "Vorm gehakt tot balletjes, marineer ook.",
+                    "Gril varkensbuik en balletjes tot karamelkleur.",
+                    "Kook noedels volgens verpakking, spoel koud.",
+                    "Maak dressing: vissaus, limoen, suiker, water, knoflook.",
+                    "Snijd groenten in reepjes.",
+                    "Serveer noedels met vlees, groenten en kruiden apart.",
+                    "Giet dressing over of dip vlees erin."
+                ]
+            },
+            {
+                name: "Carbonara",
+                origin: "Italië",
+                region: "europa",
+                description: "Romeinse pasta met ei, pecorino en guanciale.",
+                time: "20 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg27' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFFEF0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFF8DC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg27)'/%3E%3Cellipse cx='200' cy='150' rx='110' ry='70' fill='%23F5DEB3' opacity='0.5'/%3E%3Cpath d='M 130 140 Q 160 120 190 140' stroke='%23FFE4B5' stroke-width='8' fill='none'/%3E%3Cpath d='M 150 155 Q 180 135 210 155' stroke='%23FFE4B5' stroke-width='8' fill='none'/%3E%3Cpath d='M 210 145 Q 240 125 270 145' stroke='%23FFE4B5' stroke-width='8' fill='none'/%3E%3Crect x='175' y='132' width='15' height='8' fill='%23CD853F' opacity='0.7'/%3E%3Crect x='220' y='138' width='12' height='7' fill='%23CD853F' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ECarbonara%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g spaghetti",
+                    "150g guanciale of pancetta",
+                    "4 eierdooiers",
+                    "100g Pecorino Romano, geraspt",
+                    "Zwarte peper",
+                    "Zout voor pastawater"
+                ],
+                steps: [
+                    "Kook pasta in ruim gezouten water tot al dente.",
+                    "Snijd guanciale in blokjes, bak knapperig zonder olie.",
+                    "Klop eierdooiers met Pecorino en veel zwarte peper.",
+                    "Schep kopje pastawater apart voordat je afiet.",
+                    "Giet pasta af, doe terug in pan (van het vuur!).",
+                    "Meng direct eimengsel erdoor met scheutje pastawater.",
+                    "Voeg guanciale toe, blijf mengen tot romig.",
+                    "Serveer direct met extra Pecorino en peper."
+                ]
+            },
+            {
+                name: "Mole Poblano",
+                origin: "Mexico",
+                region: "amerika",
+                description: "Complexe Mexicaanse saus met chocolade en chilipepers.",
+                time: "2 uur",
+                difficulty: "Zeer Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg28' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23E8D5C4'/%3E%3Cstop offset='100%25' style='stop-color:%23D4C5B0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg28)'/%3E%3Cellipse cx='200' cy='150' rx='115' ry='75' fill='%234B2D1A' opacity='0.6'/%3E%3Cellipse cx='200' cy='145' rx='105' ry='65' fill='%23654321' opacity='0.7'/%3E%3Crect x='170' y='135' width='28' height='20' fill='%238B4513' opacity='0.6' rx='3'/%3E%3Crect x='208' y='138' width='32' height='22' fill='%238B4513' opacity='0.6' rx='3'/%3E%3Cpath d='M 185 165 Q 190 160 195 165' stroke='%23DC143C' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EMole Poblano%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "5 gedroogde chilipepers (ancho, mulato)",
+                    "50g pure chocolade",
+                    "2 tomaten",
+                    "3 teentjes knoflook",
+                    "1 ui",
+                    "50g amandelen",
+                    "2 el sesamzaad",
+                    "1 tl kaneel",
+                    "500ml kippenbouillon",
+                    "Kip voor erbij"
+                ],
+                steps: [
+                    "Ontpit chilipepers, rooster kort, week 20 min in heet water.",
+                    "Rooster amandelen, sesamzaad, kaneel in droge pan.",
+                    "Blancheer tomaten, pel en pureer.",
+                    "Bak ui en knoflook, voeg chilipepers toe.",
+                    "Blend alles met bouillon tot gladde pasta.",
+                    "Kook saus 45 min, roer regelmatig.",
+                    "Voeg chocolade toe, los op in saus.",
+                    "Serveer over gegrilde kip met rijst."
+                ]
+            },
+            {
+                name: "Hummus",
+                origin: "Midden-Oosten",
+                region: "afrika",
+                description: "Romige spread van kikkererwten met tahini en citroen.",
+                time: "15 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg29' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFFEF5'/%3E%3Cstop offset='100%25' style='stop-color:%23FFF8E7'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg29)'/%3E%3Cellipse cx='200' cy='150' rx='105' ry='65' fill='%23F5DEB3' opacity='0.6'/%3E%3Cellipse cx='200' cy='148' rx='95' ry='55' fill='%23FFE4B5' opacity='0.7'/%3E%3Ccircle cx='200' cy='145' r='25' fill='%23DEB887' opacity='0.3'/%3E%3Cpath d='M 175 155 Q 180 150 185 155' stroke='%23228B22' stroke-width='2' fill='none'/%3E%3Cpath d='M 215 155 Q 220 150 225 155' stroke='%23228B22' stroke-width='2' fill='none'/%3E%3Ccircle cx='195' cy='140' r='3' fill='%23F4A460' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EHummus%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g kikkererwten uit blik",
+                    "3 el tahini (sesampasta)",
+                    "2 teentjes knoflook",
+                    "Sap van 1 citroen",
+                    "3 el olijfolie",
+                    "1 tl komijn",
+                    "Zout",
+                    "IJswater",
+                    "Paprikapoeder en peterselie"
+                ],
+                steps: [
+                    "Spoel kikkererwten af, bewaar wat kookvocht.",
+                    "Blend kikkererwten met knoflook, tahini en citroensap.",
+                    "Voeg olijfolie toe terwijl je blijft blenden.",
+                    "Voeg ijswater toe tot gewenste romigheid.",
+                    "Breng op smaak met komijn en zout.",
+                    "Schep in kom, maak kuiltje in midden.",
+                    "Garneer met olijfolie, paprikapoeder en peterselie.",
+                    "Serveer met pitabrood of groenten."
+                ]
+            },
+            {
+                name: "Tagine",
+                origin: "Marokko",
+                region: "afrika",
+                description: "Marokkaanse stoofschotel met lamsvlees en gedroogd fruit.",
+                time: "2,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg30' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F4E4D7'/%3E%3Cstop offset='100%25' style='stop-color:%23E8D4C0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg30)'/%3E%3Cellipse cx='200' cy='160' rx='110' ry='70' fill='%23D2691E' opacity='0.5'/%3E%3Crect x='170' y='135' width='30' height='20' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Crect x='210' y='140' width='28' height='18' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Ccircle cx='185' cy='160' r='10' fill='%23FF8C00' opacity='0.8'/%3E%3Ccircle cx='220' cy='163' r='9' fill='%23FFD700' opacity='0.8'/%3E%3Cpath d='M 165 150 Q 170 145 175 150' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ETagine%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "800g lamsstoofvlees",
+                    "2 uien, in ringen",
+                    "3 wortels, in stukken",
+                    "100g gedroogde abrikozen",
+                    "50g amandelen",
+                    "1 tl kaneel",
+                    "1 tl gemberpoeder",
+                    "Saffraan",
+                    "Honing",
+                    "Koriander"
+                ],
+                steps: [
+                    "Bruin lamsvlees aan in olijfolie.",
+                    "Voeg uien, knoflook en specerijen toe.",
+                    "Voeg water of bouillon toe tot vlees net onder staat.",
+                    "Sudder 1,5 uur met deksel op laag vuur.",
+                    "Voeg wortels en abrikozen toe, kook nog 45 min.",
+                    "Rooster amandelen in droge pan.",
+                    "Zoet af met honing, voeg koriander toe.",
+                    "Serveer met couscous, garneer met amandelen."
+                ]
+            },
+            {
+                name: "Poutine",
+                origin: "Canada",
+                region: "amerika",
+                description: "Canadese friet met jus en kaascurd.",
+                time: "45 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg31' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8E7'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg31)'/%3E%3Cellipse cx='200' cy='155' rx='115' ry='75' fill='%23F4A460' opacity='0.5'/%3E%3Crect x='150' y='130' width='10' height='40' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Crect x='170' y='125' width='10' height='45' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Crect x='190' y='135' width='10' height='38' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Crect x='210' y='128' width='10' height='43' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Crect x='230' y='132' width='10' height='40' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Ccircle cx='175' cy='148' r='12' fill='white' opacity='0.8'/%3E%3Ccircle cx='215' cy='145' r='10' fill='white' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EPoutine%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "1 kg aardappels",
+                    "200g cheese curds (kaascurd)",
+                    "Frituurolie",
+                    "300ml runderjus of vleessaus",
+                    "Zout"
+                ],
+                steps: [
+                    "Snijd aardappels in dikke frieten.",
+                    "Frituur op 160°C voor 5 min, laat uitlekken.",
+                    "Verhoog olie naar 190°C, frituur nog 3 min tot knapperig.",
+                    "Verwarm jus of maak van bouillon met aangebakken roux.",
+                    "Schep hete friet in kom of bord.",
+                    "Verdeel kaascurd over friet.",
+                    "Giet hete jus erover (kaas moet smelten).",
+                    "Serveer direct, eet met vork."
+                ]
+            },
+            {
+                name: "Tom Yum Goong",
+                origin: "Thailand",
+                region: "azie",
+                description: "Pittige-zure Thaise garnalensoep met citroengras.",
+                time: "30 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg32' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF5E6'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE8CC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg32)'/%3E%3Cellipse cx='200' cy='150' rx='125' ry='80' fill='%23FF6347' opacity='0.4'/%3E%3Cellipse cx='185' cy='140' rx='22' ry='14' fill='%23FFB6C1' opacity='0.8'/%3E%3Cellipse cx='220' cy='145' rx='20' ry='13' fill='%23FFB6C1' opacity='0.8'/%3E%3Ccircle cx='200' cy='160' r='15' fill='white' opacity='0.7'/%3E%3Cpath d='M 170 155 L 175 150 L 180 155' stroke='%2332CD32' stroke-width='2' fill='%2332CD32'/%3E%3Ccircle cx='225' cy='158' r='6' fill='%23DC143C' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ETom Yum Goong%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g garnalen, gepeld",
+                    "1L kippenbouillon",
+                    "3 stengels citroengras",
+                    "5 kaffir limoenblaadjes",
+                    "Stuk galgant (of gember)",
+                    "5 Thaise chilipepers",
+                    "200g champignons",
+                    "3 el vissaus",
+                    "2 el limoensap",
+                    "Koriander"
+                ],
+                steps: [
+                    "Kneus citroengras, snijd in stukken van 5 cm.",
+                    "Breng bouillon aan kook met citroengras, galgant en kaffir.",
+                    "Laat 10 min trekken op laag vuur.",
+                    "Voeg champignons toe, kook 3 min.",
+                    "Voeg garnalen en chilipepers toe, kook 3 min.",
+                    "Voeg vissaus en limoensap toe.",
+                    "Proef en corrigeer zout/zuur/pittig.",
+                    "Garneer met koriander, serveer direct."
+                ]
+            },
+            {
+                name: "Osso Buco",
+                origin: "Italië",
+                region: "europa",
+                description: "Italiaanse kalfsstoofpot met beenmerg en gremolata.",
+                time: "3 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg33' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F0E6DC'/%3E%3Cstop offset='100%25' style='stop-color:%23E0D4C8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg33)'/%3E%3Cellipse cx='200' cy='155' rx='115' ry='75' fill='%23D2691E' opacity='0.5'/%3E%3Ccircle cx='200' cy='150' r='50' fill='%23A0522D' opacity='0.6'/%3E%3Ccircle cx='200' cy='150' r='20' fill='%23F5DEB3' opacity='0.7'/%3E%3Cpath d='M 165 165 Q 170 160 175 165' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Cpath d='M 225 165 Q 230 160 235 165' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EOsso Buco%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "4 kalfsschenkel met been",
+                    "Bloem voor bestuiven",
+                    "2 wortels, gesnipperd",
+                    "2 stengels bleekselderij",
+                    "1 ui, gesnipperd",
+                    "250ml witte wijn",
+                    "400g tomaten uit blik",
+                    "500ml kalfs- of runderbouillon",
+                    "Gremolata: peterselie, citroen, knoflook"
+                ],
+                steps: [
+                    "Bestrooi kalfsshenkel met bloem, zout en peper.",
+                    "Bruin vlees aan in olijfolie, leg opzij.",
+                    "Fruit wortel, selderij en ui in dezelfde pan.",
+                    "Blus met witte wijn, laat inkoken.",
+                    "Voeg tomaten en bouillon toe, leg vlees erin.",
+                    "Dek af, sudder 2-2,5 uur op laag vuur of in oven op 160°C.",
+                    "Maak gremolata: hak peterselie, knoflook en citroenschil fijn.",
+                    "Serveer osso buco met risotto, bestrooi met gremolata."
+                ]
+            },
+            {
+                name: "Jollof Rice",
+                origin: "West-Afrika",
+                region: "afrika",
+                description: "Kruidige West-Afrikaanse rijstschotel met tomaat.",
+                time: "1 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg34' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF0E0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE0C0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg34)'/%3E%3Cellipse cx='200' cy='150' rx='115' ry='75' fill='%23FF6347' opacity='0.5'/%3E%3Cellipse cx='200' cy='145' rx='105' ry='65' fill='%23FF8C00' opacity='0.6'/%3E%3Crect x='175' y='135' width='20' height='15' fill='%23228B22' opacity='0.7' rx='2'/%3E%3Crect x='210' y='138' width='18' height='14' fill='%23228B22' opacity='0.7' rx='2'/%3E%3Ccircle cx='190' cy='160' r='8' fill='%23FFD700' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EJollof Rice%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g langkorrelige rijst",
+                    "400g tomaten uit blik",
+                    "1 grote ui",
+                    "2 paprika's",
+                    "3 el tomatenpuree",
+                    "2 tl kerrie",
+                    "1 tl tijm",
+                    "2 bouillonblokjes",
+                    "Scotch bonnet peper",
+                    "500ml water"
+                ],
+                steps: [
+                    "Pureer tomaten, ui, paprika en Scotch bonnet.",
+                    "Fruit ui in olie, voeg tomatenpuree toe.",
+                    "Voeg tomatenmengsel toe, kook 10 min in.",
+                    "Voeg kruiden en bouillon toe.",
+                    "Voeg rijst toe, meng goed.",
+                    "Voeg water toe, breng aan de kook.",
+                    "Dek af, laat 30-40 min stomen op laag vuur.",
+                    "Laat onderin licht aanbranden voor 'socarrat' (knapperige laag)."
+                ]
+            },
+            {
+                name: "Dim Sum",
+                origin: "China",
+                region: "azie",
+                description: "Chinese gestoomde dumplings met diverse vullingen.",
+                time: "1,5 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg35' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8F0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFF0E0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg35)'/%3E%3Ccircle cx='160' cy='140' r='30' fill='white' opacity='0.8'/%3E%3Cpath d='M 160 120 Q 150 130 160 140 Q 170 130 160 120' fill='%23FFE4B5' opacity='0.7'/%3E%3Ccircle cx='240' cy='140' r='30' fill='white' opacity='0.8'/%3E%3Cpath d='M 240 120 Q 230 130 240 140 Q 250 130 240 120' fill='%23FFE4B5' opacity='0.7'/%3E%3Ccircle cx='200' cy='165' r='30' fill='white' opacity='0.8'/%3E%3Cpath d='M 200 145 Q 190 155 200 165 Q 210 155 200 145' fill='%23FFE4B5' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EDim Sum%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "200g varkensgehakt",
+                    "100g garnalen, fijngesneden",
+                    "2 el sojasaus",
+                    "1 el sesamolie",
+                    "Gember en lente-ui",
+                    "30 won ton vellen",
+                    "Alternatief: koop kant-en-klare dim sum vellen",
+                    "Rijstazijn voor dipping"
+                ],
+                steps: [
+                    "Meng gehakt, garnalen, sojasaus, sesamolie, gember en lente-ui.",
+                    "Leg won ton vel plat, doe lepel vulling in midden.",
+                    "Vocht randen met water, vouw dicht in gewenste vorm.",
+                    "Plak stevig dicht zodat ze niet opengaan.",
+                    "Leg dim sum op bakpapier in stoommand.",
+                    "Stoom 12-15 minuten boven kokend water.",
+                    "Maak dipsaus van rijstazijn, sojasaus en chili.",
+                    "Serveer direct, nog dampend."
+                ]
+            },
+            {
+                name: "Jambalaya",
+                origin: "VS (Louisiana)",
+                region: "amerika",
+                description: "Creoolse rijstschotel met worst, kip en garnalen.",
+                time: "1,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg36' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF0DC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE0B8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg36)'/%3E%3Cellipse cx='200' cy='150' rx='120' ry='75' fill='%23FF6347' opacity='0.4'/%3E%3Cellipse cx='200' cy='145' rx='110' ry='65' fill='%23F4A460' opacity='0.5'/%3E%3Crect x='170' y='135' width='25' height='15' fill='%23CD853F' opacity='0.7' rx='3'/%3E%3Crect x='210' y='138' width='28' height='16' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Cellipse cx='190' cy='160' rx='18' ry='12' fill='%23FFB6C1' opacity='0.8'/%3E%3Ccircle cx='220' cy='158' r='8' fill='%2332CD32' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EJambalaya%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "300g kipfilet, in blokjes",
+                    "200g Andouille worst (of chorizo)",
+                    "200g garnalen",
+                    "300g langkorrelige rijst",
+                    "1 ui, 1 paprika, 2 stengels selderij",
+                    "400g tomaten uit blik",
+                    "3 teentjes knoflook",
+                    "Cajun kruiden, tijm, cayenne",
+                    "600ml kippenbouillon"
+                ],
+                steps: [
+                    "Bak worst in stukken, haal uit de pan.",
+                    "Bak kip bruin in worstvet, haal eruit.",
+                    "Fruit ui, paprika, selderij en knoflook (de 'Holy Trinity').",
+                    "Voeg Cajun kruiden toe, bak 1 minuut.",
+                    "Voeg tomaten en bouillon toe, kook 5 min.",
+                    "Voeg rijst toe, dek af, kook 20 min.",
+                    "Roer kip en worst erdoor, kook nog 10 min.",
+                    "Voeg garnalen toe laatste 5 min. Serveer met tabasco."
+                ]
+            },
+            {
+                name: "Borscht",
+                origin: "Oekraïne/Rusland",
+                region: "europa",
+                description: "Rode bietensoep met zure room en dille.",
+                time: "1,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg37' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF0F5'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE0E8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg37)'/%3E%3Cellipse cx='200' cy='150' rx='120' ry='80' fill='%23DC143C' opacity='0.5'/%3E%3Cellipse cx='200' cy='145' rx='110' ry='70' fill='%23B22222' opacity='0.6'/%3E%3Ccircle cx='185' cy='140' r='15' fill='%23CD5C5C' opacity='0.7'/%3E%3Ccircle cx='215' cy='145' r='12' fill='%23F08080' opacity='0.7'/%3E%3Cellipse cx='200' cy='160' rx='20' ry='10' fill='white' opacity='0.8'/%3E%3Cpath d='M 180 165 Q 185 160 190 165' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EBorscht%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "500g bieten, geschild en geraspt",
+                    "300g rundvlees (optioneel)",
+                    "2 aardappels, in blokjes",
+                    "1 wortel, geraspt",
+                    "1 ui, gesnipperd",
+                    "200g witte kool, gesneden",
+                    "1,5L runderbouillon",
+                    "2 el azijn",
+                    "Zure room en dille",
+                    "Laurier, zout, peper"
+                ],
+                steps: [
+                    "Kook rundvlees 1 uur in bouillon (indien gebruikt).",
+                    "Haal vlees eruit, snijd in stukjes.",
+                    "Fruit ui en wortel in boter.",
+                    "Voeg bieten toe met azijn, bak 5 min.",
+                    "Voeg alles toe aan bouillon met aardappels en kool.",
+                    "Voeg laurier toe, kook 30 min tot groenten zacht zijn.",
+                    "Breng op smaak met zout en peper.",
+                    "Serveer met klodder zure room en verse dille."
+                ]
+            },
+            {
+                name: "Bibimbap",
+                origin: "Korea",
+                region: "azie",
+                description: "Koreaanse rijstkom met groenten, ei en gochujang.",
+                time: "45 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg38' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8E7'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg38)'/%3E%3Cellipse cx='200' cy='150' rx='115' ry='75' fill='white' opacity='0.8'/%3E%3Cpath d='M 160 140 L 175 145 L 165 155 Z' fill='%2332CD32' opacity='0.7'/%3E%3Cpath d='M 190 135 L 205 140 L 195 150 Z' fill='%23FF6347' opacity='0.7'/%3E%3Cpath d='M 220 138 L 235 143 L 225 153 Z' fill='%23FFA500' opacity='0.7'/%3E%3Ccircle cx='200' cy='165' r='18' fill='%23FFD700' opacity='0.7'/%3E%3Ccircle cx='200' cy='165' r='10' fill='%23FFA500' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EBibimbap%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "300g gekookte rijst",
+                    "200g runderreepjes",
+                    "100g spinazie",
+                    "1 wortel, in reepjes",
+                    "100g taugé",
+                    "1 courgette, in reepjes",
+                    "4 eieren",
+                    "3 el gochujang (Koreaanse chilipasta)",
+                    "Sesamolie en sesamzaad",
+                    "Sojasaus"
+                ],
+                steps: [
+                    "Marineer rundvlees in sojasaus en sesamolie, bak snel.",
+                    "Blancheer spinazie, pers uit, kruid met sesamolie.",
+                    "Bak wortel en courgette apart, kruid elk met sesamolie.",
+                    "Blancheer taugé kort.",
+                    "Bak eieren spiegelei.",
+                    "Verdeel warme rijst over kommen.",
+                    "Rangschik groenten en vlees in secties op rijst.",
+                    "Top met spiegelei, serveer met gochujang, meng voor het eten."
+                ]
+            },
+            {
+                name: "Empanadas",
+                origin: "Argentinië",
+                region: "amerika",
+                description: "Argentijnse gevulde deegpakketjes met vlees.",
+                time: "1,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg39' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF5E6'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE8CC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg39)'/%3E%3Cpath d='M 150 150 Q 150 120 170 120 Q 190 120 190 150 Q 190 180 170 180 Q 150 180 150 150 Z' fill='%23F4A460' opacity='0.7'/%3E%3Cpath d='M 210 150 Q 210 120 230 120 Q 250 120 250 150 Q 250 180 230 180 Q 210 180 210 150 Z' fill='%23F4A460' opacity='0.7'/%3E%3Cpath d='M 150 150 Q 190 150 190 150' stroke='%23D2691E' stroke-width='2'/%3E%3Cpath d='M 210 150 Q 250 150 250 150' stroke='%23D2691E' stroke-width='2'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EEmpanadas%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g bloem",
+                    "100g boter",
+                    "1 ei",
+                    "150ml water",
+                    "300g rundergehakt",
+                    "1 ui, gesnipperd",
+                    "2 gekookte eieren, gehakt",
+                    "50g groene olijven",
+                    "1 tl komijn",
+                    "1 tl paprikapoeder"
+                ],
+                steps: [
+                    "Maak deeg: meng bloem, boter, ei en water, kneed, laat 30 min rusten.",
+                    "Bak ui en gehakt met komijn en paprika.",
+                    "Laat afkoelen, meng met gehakte ei en olijven.",
+                    "Rol deeg uit, steek cirkels uit van 12 cm.",
+                    "Leg vulling op helft van cirkel.",
+                    "Vouw dicht, druk randen met vork dicht.",
+                    "Bestrijk met eigeel.",
+                    "Bak 25 min op 200°C tot goudbruin."
+                ]
+            },
+            {
+                name: "Bouillabaisse",
+                origin: "Frankrijk",
+                region: "europa",
+                description: "Provençaalse vissoep met saffraan en rouille.",
+                time: "1,5 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg40' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8F0'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEAD0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg40)'/%3E%3Cellipse cx='200' cy='150' rx='125' ry='80' fill='%23FF8C00' opacity='0.4'/%3E%3Cellipse cx='185' cy='140' rx='25' ry='15' fill='white' opacity='0.8'/%3E%3Cellipse cx='220' cy='145' rx='22' ry='14' fill='white' opacity='0.8'/%3E%3Ccircle cx='200' cy='165' r='12' fill='%23FFB6C1' opacity='0.7'/%3E%3Cpath d='M 170 155 L 175 150 L 180 155' stroke='%2332CD32' stroke-width='2' fill='%2332CD32'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EBouillabaisse%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "800g gemengde vis (zeebaars, rode mul)",
+                    "400g schaaldieren (garnalen, mosselen)",
+                    "2 uien, gesnipperd",
+                    "4 tomaten, gehakt",
+                    "4 teentjes knoflook",
+                    "Saffraan",
+                    "1 venkelknol",
+                    "Sinaasappelschil",
+                    "Visboullion",
+                    "Rouille (knoflookmayonaise)"
+                ],
+                steps: [
+                    "Bak ui, venkel en knoflook in olijfolie.",
+                    "Voeg tomaten, saffraan en sinaasappelschil toe.",
+                    "Voeg visboullion toe, kook 20 min.",
+                    "Voeg stevige vis toe, kook 5 min.",
+                    "Voeg delicate vis en schaaldieren toe, kook 5 min.",
+                    "Breng op smaak met zout en peper.",
+                    "Maak rouille: mix mayonaise met knoflook en cayenne.",
+                    "Serveer in kommen met stokbrood en rouille."
+                ]
+            },
+            {
+                name: "Massaman Curry",
+                origin: "Thailand",
+                region: "azie",
+                description: "Thaise curry met pinda's, aardappel en zachte specerijen.",
+                time: "1,5 uur",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg41' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF0DC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE0B8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg41)'/%3E%3Cellipse cx='200' cy='150' rx='115' ry='75' fill='%23D2691E' opacity='0.5'/%3E%3Crect x='170' y='135' width='28' height='20' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Crect x='208' y='138' width='30' height='22' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Ccircle cx='185' cy='160' r='12' fill='%23F4A460' opacity='0.8'/%3E%3Ccircle cx='220' cy='158' r='10' fill='%23DEB887' opacity='0.8'/%3E%3Ccircle cx='200' cy='145' r='6' fill='%23CD853F' opacity='0.7'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EMassaman Curry%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "600g rundvlees, in blokken",
+                    "400ml kokosmelk",
+                    "3 el massaman currypasta",
+                    "2 aardappels, in blokken",
+                    "1 ui, in parten",
+                    "50g ongezouten pinda's",
+                    "2 el vissaus",
+                    "2 el tamarinde",
+                    "2 el bruine suiker",
+                    "Kaneelstokje, steranijs"
+                ],
+                steps: [
+                    "Bak currypasta aan in dikke laag kokosroom.",
+                    "Voeg vlees toe, bruin aan.",
+                    "Voeg rest kokosmelk, kaneel en steranijs toe.",
+                    "Sudder 1 uur tot vlees mals is.",
+                    "Voeg aardappel en ui toe, kook 20 min.",
+                    "Rooster pinda's in droge pan.",
+                    "Voeg vissaus, tamarinde en suiker toe.",
+                    "Garneer met pinda's, serveer met rijst."
+                ]
+            },
+            {
+                name: "Fish and Chips",
+                origin: "Engeland",
+                region: "europa",
+                description: "Klassiek Brits gerecht van gebakken vis met friet.",
+                time: "45 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg42' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8E7'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg42)'/%3E%3Cellipse cx='180' cy='145' rx='60' ry='35' fill='%23F4A460' opacity='0.7' transform='rotate(-10 180 145)'/%3E%3Crect x='210' y='135' width='10' height='50' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Crect x='230' y='130' width='10' height='55' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Crect x='250' y='140' width='10' height='45' fill='%23FFD700' opacity='0.7' rx='2'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EFish %26 Chips%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "4 visfilets (kabeljauw of schelvis)",
+                    "150g bloem",
+                    "200ml koud bier of bruiswater",
+                    "1 tl bakpoeder",
+                    "800g aardappels",
+                    "Frituurolie",
+                    "Zout en moutazijn",
+                    "Doperwten voor erbij"
+                ],
+                steps: [
+                    "Snijd aardappels in dikke friet, dep droog.",
+                    "Verhit olie tot 160°C, frituur friet 5 min, laat uitlekken.",
+                    "Maak beslag: meng bloem, bakpoeder, bier tot glad.",
+                    "Dep vis droog, haal door extra bloem.",
+                    "Verhoog olie naar 190°C.",
+                    "Doop vis in beslag, frituur 6-8 min goudbruin.",
+                    "Frituur friet nogmaals 3 min op 190°C.",
+                    "Serveer met zout, moutazijn en doperwten."
+                ]
+            },
+            {
+                name: "Dolma",
+                origin: "Turkije/Griekenland",
+                region: "europa",
+                description: "Gevulde wijnbladeren met rijst en kruiden.",
+                time: "1,5 uur",
+                difficulty: "Uitdagend",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg43' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F0F8E8'/%3E%3Cstop offset='100%25' style='stop-color:%23E0F0D8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg43)'/%3E%3Cellipse cx='180' cy='145' rx='35' ry='15' fill='%23556B2F' opacity='0.7' transform='rotate(-5 180 145)'/%3E%3Cellipse cx='220' cy='148' rx='35' ry='15' fill='%23556B2F' opacity='0.7' transform='rotate(8 220 148)'/%3E%3Cellipse cx='200' cy='165' rx='35' ry='15' fill='%23556B2F' opacity='0.7' transform='rotate(2 200 165)'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EDolma%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "30 wijnbladeren (in pekel)",
+                    "200g rijst",
+                    "1 ui, fijngesnipperd",
+                    "2 tomaten, gehakt",
+                    "50g pijnboompitten",
+                    "50g krenten",
+                    "Munt, peterselie, dille",
+                    "Kaneel, piment",
+                    "Citroen",
+                    "Olijfolie"
+                ],
+                steps: [
+                    "Spoel wijnbladeren, blancheer 2 min, laat uitlekken.",
+                    "Fruit ui, voeg rijst, kruiden, specerijen, pijnboompitten en krenten toe.",
+                    "Roer 5 min, laat afkoelen.",
+                    "Leg wijnblad plat, nerven naar boven.",
+                    "Leg lepel vulling onderaan, vouw zijkanten in, rol op.",
+                    "Leg dolma's dicht op elkaar in pan.",
+                    "Giet water met olijfolie en citroensap erbij.",
+                    "Kook 45 min zachtjes, serveer koud of lauw."
+                ]
+            },
+            {
+                name: "Nasi Goreng",
+                origin: "Indonesië",
+                region: "azie",
+                description: "Indonesische gebakken rijst met kip en garnalenpasta.",
+                time: "30 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg44' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF5E6'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE8CC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg44)'/%3E%3Cellipse cx='200' cy='150' rx='115' ry='75' fill='%23D2691E' opacity='0.4'/%3E%3Crect x='170' y='135' width='25' height='15' fill='%23A0522D' opacity='0.7' rx='3'/%3E%3Crect x='205' y='138' width='28' height='16' fill='%23CD853F' opacity='0.7' rx='3'/%3E%3Ccircle cx='185' cy='160' r='10' fill='%2332CD32' opacity='0.7'/%3E%3Cellipse cx='220' cy='158' rx='15' ry='10' fill='%23FFB6C1' opacity='0.7'/%3E%3Ccircle cx='200' cy='145' r='6' fill='%23FF6347' opacity='0.8'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ENasi Goreng%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "400g gekookte rijst (1 dag oud)",
+                    "200g kipfilet, in blokjes",
+                    "2 eieren",
+                    "2 el sambal oelek",
+                    "2 el ketjap manis",
+                    "1 el garnalenpasta (trassi)",
+                    "3 sjalotten, gesnipperd",
+                    "2 teentjes knoflook",
+                    "Atjar, komkommer, kroepoek"
+                ],
+                steps: [
+                    "Bak kip in wok tot gaar, haal eruit.",
+                    "Bak eieren als roerei, haal eruit.",
+                    "Bak sjalot, knoflook en garnalenpasta.",
+                    "Voeg sambal toe, bak 1 minuut.",
+                    "Voeg rijst toe, bak op hoog vuur 5 min.",
+                    "Voeg ketjap manis, kip en ei toe.",
+                    "Blijf roerbakken tot alles goed verhit is.",
+                    "Serveer met atjar, komkommer en kroepoek."
+                ]
+            },
+            {
+                name: "Croque Monsieur",
+                origin: "Frankrijk",
+                region: "europa",
+                description: "Franse tosti met ham, kaas en bechamelsaus.",
+                time: "25 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg45' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFFEF5'/%3E%3Cstop offset='100%25' style='stop-color:%23FFF8DC'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg45)'/%3E%3Crect x='140' y='115' width='120' height='70' fill='%23F4A460' opacity='0.7' rx='5'/%3E%3Crect x='145' y='135' width='110' height='10' fill='%23FFB6C1' opacity='0.6'/%3E%3Crect x='145' y='150' width='110' height='10' fill='%23FFD700' opacity='0.6'/%3E%3Crect x='140' y='110' width='120' height='15' fill='%23F5DEB3' opacity='0.7' rx='5'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3ECroque Monsieur%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "4 sneetjes witbrood",
+                    "4 plakken ham",
+                    "150g Gruyère kaas, geraspt",
+                    "30g boter",
+                    "30g bloem",
+                    "300ml melk",
+                    "Nootmuskaat",
+                    "Mosterd"
+                ],
+                steps: [
+                    "Maak bechamel: smelt boter, roer bloem erdoor, voeg melk toe.",
+                    "Kook tot dik, kruid met nootmuskaat, zout, peper.",
+                    "Bestrijk brood dun met mosterd.",
+                    "Beleg met ham en helft van de kaas.",
+                    "Dek af met tweede sneetje.",
+                    "Smeer bechamel op bovenkant, bestrooi met kaas.",
+                    "Gril 5-8 min tot goudbruin en borrelt.",
+                    "Voeg spiegelei toe voor Croque Madame."
+                ]
+            },
+            {
+                name: "Arepas",
+                origin: "Venezuela/Colombia",
+                region: "amerika",
+                description: "Zuid-Amerikaanse maïskoekjes met diverse vullingen.",
+                time: "40 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg46' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF8DC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFEFD5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg46)'/%3E%3Ccircle cx='170' cy='145' r='40' fill='%23F4A460' opacity='0.7'/%3E%3Ccircle cx='230' cy='145' r='40' fill='%23F4A460' opacity='0.7'/%3E%3Ccircle cx='170' cy='145' r='30' fill='%23FFE4B5' opacity='0.6'/%3E%3Ccircle cx='230' cy='145' r='30' fill='%23FFE4B5' opacity='0.6'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EArepas%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "250g pre-gekookt maïsmeel (masarepa)",
+                    "350ml warm water",
+                    "1 tl zout",
+                    "1 el olie",
+                    "Vulling naar keuze:",
+                    "Geraspte kaas, zwarte bonen",
+                    "Avocado, gegrilde kip",
+                    "Plantain"
+                ],
+                steps: [
+                    "Meng maïsmeel met water, zout en olie.",
+                    "Kneed 3 minuten tot glad deeg.",
+                    "Laat 5 minuten rusten.",
+                    "Vorm 8 ballen, plat drukken tot schijven van 1 cm dik.",
+                    "Bak in droge pan of grill 5-7 min per kant tot krokant.",
+                    "Snijd open als pita.",
+                    "Vul met kaas, bonen, avocado of kip.",
+                    "Serveer warm."
+                ]
+            },
+            {
+                name: "Katsu Curry",
+                origin: "Japan",
+                region: "azie",
+                description: "Japanse curry met gepaneerde kipschnitzel.",
+                time: "45 min",
+                difficulty: "Gemiddeld",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg47' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23FFF0DC'/%3E%3Cstop offset='100%25' style='stop-color:%23FFE0B8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg47)'/%3E%3Cellipse cx='200' cy='150' rx='110' ry='70' fill='%23D2691E' opacity='0.5'/%3E%3Crect x='165' y='130' width='70' height='40' fill='%23F4A460' opacity='0.7' rx='5'/%3E%3Cpath d='M 175 145 Q 180 140 185 145' stroke='%23FFD700' stroke-width='2' fill='none'/%3E%3Cpath d='M 215 145 Q 220 140 225 145' stroke='%23FFD700' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EKatsu Curry%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "2 kipfilets",
+                    "Bloem, ei, panko paneermeel",
+                    "1 ui, gesnipperd",
+                    "1 wortel, in blokjes",
+                    "2 aardappels, in blokken",
+                    "3 el Japanse currypasta",
+                    "500ml water",
+                    "1 el sojasaus",
+                    "Rijst",
+                    "Frituurolie"
+                ],
+                steps: [
+                    "Klop kipfilets plat, paneer met bloem-ei-panko.",
+                    "Fruit ui, voeg wortel en aardappel toe.",
+                    "Voeg water toe, kook 15 min tot groenten zacht.",
+                    "Voeg currypasta toe, roer op, laat 5 min sudderen.",
+                    "Frituur kip in olie 6-7 min tot goudbruin en gaar.",
+                    "Snijd kip in repen.",
+                    "Serveer rijst met curry en kip erbovenop.",
+                    "Garneer eventueel met ingemaakte gember."
+                ]
+            },
+            {
+                name: "Kangaroo Steak",
+                origin: "Australië",
+                region: "oceanie",
+                description: "Gegrilde kangoeroe steak, typisch Australisch gerecht.",
+                time: "20 min",
+                difficulty: "Makkelijk",
+                image: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cdefs%3E%3ClinearGradient id='bg48' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23F0E6DC'/%3E%3Cstop offset='100%25' style='stop-color:%23E0D4C8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='400' height='300' fill='url(%23bg48)'/%3E%3Cellipse cx='200' cy='150' rx='90' ry='50' fill='%238B4513' opacity='0.6' transform='rotate(-5 200 150)'/%3E%3Cellipse cx='200' cy='148' rx='80' ry='42' fill='%23A0522D' opacity='0.7' transform='rotate(-5 200 148)'/%3E%3Cpath d='M 165 155 Q 170 150 175 155' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Cpath d='M 225 155 Q 230 150 235 155' stroke='%2332CD32' stroke-width='2' fill='none'/%3E%3Ctext x='200' y='260' font-family='serif' font-size='24' fill='%233A2817' text-anchor='middle' font-weight='bold'%3EKangaroo Steak%3C/text%3E%3C/svg%3E",
+                ingredients: [
+                    "2 kangoeroe steaks (circa 200g per stuk)",
+                    "2 el olijfolie",
+                    "2 teentjes knoflook, geplet",
+                    "Rozemarijn",
+                    "Peper en zout",
+                    "Boter",
+                    "Optioneel: rode wijn voor jus"
+                ],
+                steps: [
+                    "Laat vlees op kamertemperatuur komen.",
+                    "Wrijf in met olijfolie, knoflook, rozemarijn, peper en zout.",
+                    "Verhit grill of pan zeer heet.",
+                    "Gril steaks 2-3 min per kant voor medium-rare.",
+                    "Kangoeroe moet niet doorbakken - wordt anders taai.",
+                    "Laat 5 minuten rusten onder aluminiumfolie.",
+                    "Snijd schuin in dunne plakken.",
+                    "Serveer met gegrilde groenten en zoete aardappel."
+                ]
+            }
+        ];
+        
+        const dishesGrid = document.getElementById('dishesGrid');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const modal = document.getElementById('recipeModal');
+        const modalContent = document.getElementById('modalContent');
+        
+        // Render dishes
+        function renderDishes(filteredDishes) {
+            dishesGrid.innerHTML = '';
+            filteredDishes.forEach(dish => {
+                const card = document.createElement('div');
+                card.className = 'dish-card';
+                card.setAttribute('data-region', dish.region);
+                
+                card.innerHTML = `
+                    <img src="${dish.image}" alt="${dish.name}" class="dish-image">
+                    <div class="dish-info">
+                        <div class="dish-origin">${dish.origin}</div>
+                        <h3 class="dish-name">${dish.name}</h3>
+                        <p class="dish-description">${dish.description}</p>
+                        <div class="dish-meta">
+                            <span class="meta-item">⏱ ${dish.time}</span>
+                            <span class="meta-item">👨‍🍳 ${dish.difficulty}</span>
+                        </div>
+                        <button class="recipe-btn" onclick="showRecipe('${dish.name}')">Bekijk Recept</button>
+                    </div>
+                `;
+                
+                dishesGrid.appendChild(card);
+            });
+        }
+        
+        // Initial render
+        renderDishes(dishes);
+        
+        // Filter functionality
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                const region = btn.getAttribute('data-region');
+                if (region === 'alle') {
+                    renderDishes(dishes);
+                } else {
+                    const filtered = dishes.filter(dish => dish.region === region);
+                    renderDishes(filtered);
+                }
+            });
+        });
+        
+        // Show recipe modal
+        window.showRecipe = function(dishName) {
+            const dish = dishes.find(d => d.name === dishName);
+            if (!dish) return;
+            
+            modalContent.innerHTML = `
+                <h2>${dish.name}</h2>
+                <p style="color: var(--burnt-orange); font-weight: 600; margin-bottom: 1rem;">${dish.origin}</p>
+                <p style="margin-bottom: 2rem;">${dish.description}</p>
+                
+                <button class="add-to-list-btn" onclick="addAllToShoppingList('${dish.name.replace(/'/g, "\\'")}')">
+                    🛒 Voeg Alle Ingrediënten Toe aan Boodschappenlijst
+                </button>
+                
+                <h3>Ingrediënten</h3>
+                <ul class="ingredients-list">
+                    ${dish.ingredients.map(ing => `<li>${ing}</li>`).join('')}
+                </ul>
+                
+                <h3>Bereidingswijze</h3>
+                <ol class="steps-list">
+                    ${dish.steps.map(step => `<li>${step}</li>`).join('')}
+                </ol>
+            `;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        };
+        
+        // Add all ingredients to shopping list
+        window.addAllToShoppingList = function(dishName) {
+            const dish = dishes.find(d => d.name === dishName);
+            if (!dish) return;
+            
+            // Get current shopping list from localStorage
+            let shoppingList = [];
+            const saved = localStorage.getItem('shoppingList');
+            if (saved) {
+                shoppingList = JSON.parse(saved);
+            }
+            
+            // Add ingredients that don't already exist
+            let addedCount = 0;
+            dish.ingredients.forEach(ingredient => {
+                const exists = shoppingList.some(item => 
+                    item.ingredient.toLowerCase() === ingredient.toLowerCase()
+                );
+                
+                if (!exists) {
+                    shoppingList.push({
+                        ingredient: ingredient,
+                        source: dish.name,
+                        checked: false
+                    });
+                    addedCount++;
+                }
+            });
+            
+            // Save updated list
+            localStorage.setItem('shoppingList', JSON.stringify(shoppingList));
+            
+            // Show notification
+            if (addedCount > 0) {
+                showNotification(`${addedCount} ingrediënt(en) toegevoegd aan boodschappenlijst`);
+            } else {
+                showNotification('Alle ingrediënten staan al op je lijst');
+            }
+        };
+        
+        // Show notification
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // Close modal
+        window.closeModal = function() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        };
+        
+        // Close on outside click
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
