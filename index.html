@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-
     <!-- Favicons - Plak dit in de <head> van je HTML -->
 
     <!-- Standard favicons -->
-    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/WWf1F1x8/favicon-16x16-png.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/bjchNkgb/favicon-32x32-png.png">
-    <link rel="icon" type="image/png" sizes="48x48" href="https://i.ibb.co/sdBBB180/favicon-48x48-png.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="https://i.ibb.co/xSFyD15h/favicon-16x16-png.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://i.ibb.co/RT0JMSgs/favicon-32x32-png.png">
+    <link rel="icon" type="image/png" sizes="48x48" href="https://i.ibb.co/Z1zY8Mmt/favicon-48x48-png.png">
 
     <!-- Apple Touch Icon (iOS) -->
-    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/HTn1FTmP/apple-touch-icon-png.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://i.ibb.co/9m4CmTCv/apple-touch-icon-png.png">
 
     <!-- Android Chrome -->
-    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/gL19dF7z/android-chrome-192x192-png.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="https://i.ibb.co/CpfK4Pv5/android-chrome-512x512-png.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="https://i.ibb.co/JjxHnTLN/android-chrome-192x192-png.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="https://i.ibb.co/KcRx65mj/android-chrome-512x512-png.png">
 
     <!-- Standaard fallback -->
-    <link rel="shortcut icon" href="https://i.ibb.co/bjchNkgb/favicon-32x32-png.png">
+    <link rel="shortcut icon" href="https://i.ibb.co/RT0JMSgs/favicon-32x32-png.png">
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>101 Wereldgerechten - Een Culinaire Wereldreis</title>
@@ -312,6 +312,34 @@
             transform: scale(1.02);
         }
         
+        .favorite-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            width: 45px;
+            height: 45px;
+            background: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .favorite-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .favorite-btn.active {
+            background: var(--burnt-orange);
+        }
+        
         /* Modal */
         .modal {
             display: none;
@@ -514,8 +542,9 @@
         <h1>101 Wereldgerechten</h1>
         <p class="subtitle">Een Culinaire Wereldreis</p>
         
-        <nav style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem;">
-            <a href="wereldgerechten.html" style="color: var(--deep-brown); text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border: 2px solid var(--gold); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; background: var(--burnt-orange); color: white; border-color: var(--burnt-orange);">Recepten</a>
+        <nav style="display: flex; justify-content: center; gap: 2rem; margin-top: 2rem; flex-wrap: wrap;">
+            <a href="index.html" style="color: white; text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border: 2px solid var(--burnt-orange); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; background: var(--burnt-orange);">Recepten</a>
+            <a href="favorieten.html" style="color: var(--deep-brown); text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border: 2px solid var(--gold); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Favorieten</a>
             <a href="boodschappenlijst.html" style="color: var(--deep-brown); text-decoration: none; font-weight: 600; padding: 0.75rem 1.5rem; border: 2px solid var(--gold); transition: all 0.3s ease; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">Boodschappenlijst</a>
         </nav>
     </header>
@@ -1990,6 +2019,9 @@
             }
         ];
         
+        // Make dishes available globally for other pages
+        window.dishesData = dishes;
+        
         const dishesGrid = document.getElementById('dishesGrid');
         const filterButtons = document.querySelectorAll('.filter-btn');
         const modal = document.getElementById('recipeModal');
@@ -1997,13 +2029,20 @@
         
         // Render dishes
         function renderDishes(filteredDishes) {
+            const favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            
             dishesGrid.innerHTML = '';
             filteredDishes.forEach(dish => {
                 const card = document.createElement('div');
                 card.className = 'dish-card';
                 card.setAttribute('data-region', dish.region);
                 
+                const isFavorite = favorites.includes(dish.name);
+                
                 card.innerHTML = `
+                    <button class="favorite-btn ${isFavorite ? 'active' : ''}" onclick="event.stopPropagation(); toggleFavorite('${dish.name.replace(/'/g, "\\'")}')">
+                        ${isFavorite ? '❤️' : '🤍'}
+                    </button>
                     <img src="${dish.image}" alt="${dish.name}" class="dish-image">
                     <div class="dish-info">
                         <div class="dish-origin">${dish.origin}</div>
@@ -2013,7 +2052,7 @@
                             <span class="meta-item">⏱ ${dish.time}</span>
                             <span class="meta-item">👨‍🍳 ${dish.difficulty}</span>
                         </div>
-                        <button class="recipe-btn" onclick="showRecipe('${dish.name}')">Bekijk Recept</button>
+                        <button class="recipe-btn" onclick="showRecipe('${dish.name.replace(/'/g, "\\'")}')">Bekijk Recept</button>
                     </div>
                 `;
                 
@@ -2119,6 +2158,31 @@
                 notification.classList.remove('show');
             }, 3000);
         }
+        
+        // Toggle favorite
+        window.toggleFavorite = function(dishName) {
+            let favorites = JSON.parse(localStorage.getItem('favorites') || '[]');
+            const index = favorites.indexOf(dishName);
+            
+            if (index > -1) {
+                favorites.splice(index, 1);
+                showNotification(`${dishName} verwijderd uit favorieten`);
+            } else {
+                favorites.push(dishName);
+                showNotification(`${dishName} toegevoegd aan favorieten`);
+            }
+            
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            
+            // Re-render current view to update heart icons
+            const activeRegion = document.querySelector('.filter-btn.active').getAttribute('data-region');
+            if (activeRegion === 'alle') {
+                renderDishes(dishes);
+            } else {
+                const filtered = dishes.filter(dish => dish.region === activeRegion);
+                renderDishes(filtered);
+            }
+        };
         
         // Close modal
         window.closeModal = function() {
